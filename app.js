@@ -3,10 +3,14 @@ const app = express();
 const multer = require("multer");
 const path = require("path");
 const fs = require('fs');
+const boom = require("@hapi/boom");
 const bodyParser = require('body-parser');
 const mongo = require('./system/db/mongo');
+const errorHandler = require('./system/error/handler');
 
 const userRoutes = require('./api/users/route');
+const otpRoute = require('./api/otp/route');
+const logError = require("./system/middleware/log-error");
 
 process.on('SIGINT', () => {
   console.log('SIGINT signal received. Shutting down server (gracefully; maybe.)');
@@ -66,7 +70,45 @@ app.post("/upload", upload.single("file"), (req, res) => {
   res.json({ message: 'File uploaded successfully', filename: req.file.filename, filePath });
 });
 
-app.use('/api/user', userRoutes);
+app.use('/api/otp', otpRoute);
+
+app.post('/generate-otp', (req, res) => {
+  // Generate a 6-digit numeric OTP
+  // const otp = otpGenerator.generate(6, { digits: true, alphabets: false, upperCase: false, specialChars: false });
+  const otp = generateUniqueNumericOTP(6);
+  // const otp = otpGenerator.generate(6, { digits: true, alphabets: false, upperCase: false, specialChars: false });
+
+
+  // You can send this OTP through SMS, email, or any other method of your choice
+
+  res.json({ otp });
+});
+
+const usedOTPs = new Set();
+function generateUniqueNumericOTP(length) {
+  const digits = '0123456789';
+  let otp = '';
+
+  do {
+    otp = '';
+    for (let i = 0; i < length; i++) {
+      otp += digits[Math.floor(Math.random() * 10)];
+    }
+  } while (usedOTPs.has(otp));
+
+  usedOTPs.add(otp);
+
+  return otp;
+}
+
+app.use((req, res, next) => {
+  throw boom.notFound('Endpoint Not Found');
+});
+
+app.use(logError);
+app.use(errorHandler.token);
+app.use(errorHandler.validation);
+app.use(errorHandler.all);
 
 
 

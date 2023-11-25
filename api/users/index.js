@@ -12,21 +12,32 @@ const userSchema = new Schema({
         type: Schema.ObjectId,
         auto: true,
     },
-    // ext_id: {
-    //     type: String,
-    // },
-    // corporate_id: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Corporate',
-    // },
-    // legal_service_id: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'LegalService',
-    // },
-    first_name: {
+    name: {
         type: String,
     },
-    surname: {
+    mobile: {
+        type: String,
+    },
+    dob: {
+        type: String,
+    },
+    address: {
+        type: String,
+    },
+    email: {
+        type: String,
+    },
+    referal_id: {
+        type: String,
+    },
+    password: {
+        type: String,
+    },
+    is_verifed: {
+        type: Boolean,
+        default: false,
+    },
+    role: {
         type: String,
     },
     // address: {
