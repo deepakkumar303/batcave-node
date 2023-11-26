@@ -77,9 +77,9 @@ const login = async (params) => {
 };
 
 const s3 = new aws.S3({
-  accessKeyId: "AKIAX2MCIFDBHL5QZW7C",
-  secretAccessKey: "S6r30y0KLAB7tPV6/F7X7hqPfGt2A3j6SiUhPVcR",
-  region: "ap-south-1", // e.g., 'us-east-1'
+  accessKeyId: process.env.AWS_S3_ACCESSKEYID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESSKEY,
+  region: process.env.AWS_REGION, // e.g., 'us-east-1'
 });
 
 const uploadFile = async (params) => {

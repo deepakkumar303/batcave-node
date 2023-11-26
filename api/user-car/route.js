@@ -10,15 +10,9 @@ const schema = require("./schema");
 const controller = require("./controller");
 
 router.post(
-  "/register",
-  celebrate(schema.create, schema.options),
+  "/add",
+  celebrate(schema.addSchema, schema.options),
   c(controller.register, (req, res, next) => [req.body])
-);
-
-router.post(
-  "/login",
-  celebrate(schema.loginSchema, schema.options),
-  c(controller.login, (req, res, next) => [req.body])
 );
 
 // Multer Configuration
@@ -26,7 +20,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 router.post(
-  "/upload",
+  "/upload-doc",
   upload.single("file"),
   celebrate(schema.upload, schema.options),
   c(controller.uploadFile, (req, res, next) => [req.file])

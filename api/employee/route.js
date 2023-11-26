@@ -1,7 +1,5 @@
 const express = require("express");
 const multer = require("multer");
-const aws = require("aws-sdk");
-const multerS3 = require("multer-s3");
 
 const router = express.Router();
 const { celebrate } = require("celebrate");
@@ -10,15 +8,9 @@ const schema = require("./schema");
 const controller = require("./controller");
 
 router.post(
-  "/register",
-  celebrate(schema.create, schema.options),
-  c(controller.register, (req, res, next) => [req.body])
-);
-
-router.post(
-  "/login",
-  celebrate(schema.loginSchema, schema.options),
-  c(controller.login, (req, res, next) => [req.body])
+  "/add",
+  celebrate(schema.addSchema, schema.options),
+  c(controller.addEmplyee, (req, res, next) => [req.body])
 );
 
 // Multer Configuration
@@ -26,11 +18,13 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 router.post(
-  "/upload",
+  "/upload-doc",
   upload.single("file"),
   celebrate(schema.upload, schema.options),
   c(controller.uploadFile, (req, res, next) => [req.file])
 );
+
+router.post('/login', celebrate(schema.loginSchema, schema.options), c(controller.login, (req, res, next) => [req.body]));
 
 router.post(
   "/file-delete",
