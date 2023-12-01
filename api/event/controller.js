@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const aws = require("aws-sdk");
 
+const EventIndex = require("./index");
 const utilsChecks = require("../../system/utils/checks");
 
 const service = require("./service");
@@ -96,10 +97,36 @@ const getListAll = async (params) => {
     throw boom.notFound("No Data Found");
   }
   const result = {
-    message: "List Vechile Details",
+    message: "List Event Details",
     detail: getList,
   };
   return result;
+};
+
+const getEventDetail = async (params) => {
+  const getList = await service.fetchDetails(params);
+  if (!utilsChecks.isArray(getList) || utilsChecks.isEmptyArray(getList)) {
+    throw boom.notFound("No Data Found");
+  }
+  const result = {
+    message: "Event Details",
+    detail: getList,
+  };
+  return result;
+};
+
+const eventApprove = async (params) => {
+  const EventDetail = await EventIndex.find({ _id: params.event_id });
+  if (EventDetail.length === 0) {
+    throw boom.conflict("No data found");
+  }
+  await EventIndex.findOneAndUpdate(
+    { _id: params.event_id },
+    { is_approved: true }
+  );
+  return {
+    message: "event successfully approved",
+  };
 };
 
 const s3 = new aws.S3({
@@ -132,4 +159,6 @@ module.exports = {
   addEmplyee,
   uploadFile,
   getListAll,
+  getEventDetail,
+  eventApprove
 };

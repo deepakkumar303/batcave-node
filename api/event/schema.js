@@ -16,14 +16,16 @@ module.exports.addSchema = {
     to_time: joi.date().iso().required(),
     contact_person: joi.string().required(),
     mobile: joi.string().required(),
-    location: joi.object({
-      address_line1: joi.string().required(),
-      address_line2: joi.string(),
-      city: joi.string().required(),
-      pin: joi.string().required(),
-      lat: joi.string(),
-      lan: joi.string(),
-    }).required(),
+    location: joi
+      .object({
+        address_line1: joi.string().required(),
+        address_line2: joi.string(),
+        city: joi.string().required(),
+        pin: joi.string().required(),
+        lat: joi.string(),
+        lan: joi.string(),
+      })
+      .required(),
     description: joi.string().required(),
     ticket_cost: joi.number().required(),
     ticket_count: joi.number().required(),
@@ -37,18 +39,30 @@ module.exports.addSchema = {
         internal_name: joi.string().required(),
       })
     ),
-    is_event_completed: joi.boolean().default(false),
-    is_approved: joi.boolean().default(false),
+    // is_event_completed: joi.boolean().default(false),
+    // is_approved: joi.boolean().default(false),
   }),
 };
 
 module.exports.getAllByParams = {
   query: {
-      search_string: joi.string().allow(null, '').optional(),
-      sortBy: joi.string().allow(null, '').required(),
-      sortDir: joi.string().allow(null, '').required(),
-      limit: joi.number().required(),
-      offset: joi.number().required(),
+    search_string: joi.string().allow(null, "").optional(),
+    sortBy: joi.string().allow(null, "").required(),
+    sortDir: joi.string().allow(null, "").required(),
+    limit: joi.number().required(),
+    offset: joi.number().required(),
+  },
+};
+
+module.exports.getEventDetail = {
+  params: {
+    event_id: joi.string().allow(null, "").optional(),
+  },
+};
+
+module.exports.approveSchema = {
+  body: {
+    event_id: joi.string().required(),
   },
 };
 

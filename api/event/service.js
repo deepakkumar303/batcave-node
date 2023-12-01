@@ -31,7 +31,13 @@ const list = async (params) => {
   return result;
 };
 
+const fetchDetails = async (params) => {
+  const eventDetails = await EventIndex.find({ _id: params.event_id });
+  return eventDetails;
+};
+
 module.exports = {
   create,
   list,
+  fetchDetails
 };

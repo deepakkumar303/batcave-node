@@ -6,7 +6,8 @@ const { celebrate } = require("celebrate");
 const c = require("../../system/utils/controller-handler");
 const schema = require("./schema");
 const controller = require("./controller");
-const authenticateWebJWT = require("../../system/middleware/jwt-emp-authenticate")
+const authenticateWebJWT = require("../../system/middleware/jwt-emp-authenticate");
+const authenticateMobileJWT = require("../../system/middleware/jwt-user-authenticate");
 
 router.post(
   "/add",
@@ -20,6 +21,27 @@ router.get(
   authenticateWebJWT,
   celebrate(schema.getAllByParams, schema.options),
   c(controller.getListAll, (req, res, next) => [req.query])
+);
+
+router.get(
+  "/list-mobile",
+  authenticateMobileJWT,
+  celebrate(schema.getAllByParams, schema.options),
+  c(controller.getListAll, (req, res, next) => [req.query])
+);
+
+router.get(
+  "/mobile/:event_id",
+  authenticateMobileJWT,
+  celebrate(schema.getEventDetail, schema.options),
+  c(controller.getEventDetail, (req, res, next) => [req.params])
+);
+
+router.post(
+  "/approve",
+  authenticateWebJWT,
+  celebrate(schema.approveSchema, schema.options),
+  c(controller.eventApprove, (req, res, next) => [req.body])
 );
 
 // Multer Configuration
