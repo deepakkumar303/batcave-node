@@ -44,6 +44,22 @@ module.exports.loginSchema = {
   }),
 };
 
+module.exports.getAllByParams = {
+  query: {
+      search_string: joi.string().allow(null, '').optional(),
+      sortBy: joi.string().allow(null, '').required(),
+      sortDir: joi.string().allow(null, '').required(),
+      limit: joi.number().required(),
+      offset: joi.number().required(),
+  },
+};
+
+module.exports.getEmpDetail = {
+  params: {
+    emp_id: joi.string().required(),
+  },
+};
+
 module.exports.upload = {
   body: joi.object({
     file: joi.object({

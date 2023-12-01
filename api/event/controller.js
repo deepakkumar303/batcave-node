@@ -32,37 +32,25 @@ const getListAll = async (params) => {
   ) {
     matchCond2.$or = [];
     matchCond2.$or.push({
-      year: {
+      name: {
         $regex: params.search_string,
         $options: "i",
       },
     });
     matchCond2.$or.push({
-      modal: {
+      contact_person: {
         $regex: params.search_string,
         $options: "i",
       },
     });
     matchCond2.$or.push({
-      color: {
+      description: {
         $elemMatch: {
           $regex: params.search_string,
           $options: "i",
         },
       },
     });
-    matchCond2.$or.push({
-      vechile_number: {
-        $regex: params.search_string,
-        $options: "i",
-      },
-    });
-    // matchCond2.$or.push({
-    //     'contact_bidders.bidder_name': {
-    //         $regex: params.search_string,
-    //         $options: 'i',
-    //     },
-    // });
   }
   const { sortBy } = params;
   const { sortDir } = params;

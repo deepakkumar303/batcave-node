@@ -6,11 +6,27 @@ const { celebrate } = require("celebrate");
 const c = require("../../system/utils/controller-handler");
 const schema = require("./schema");
 const controller = require("./controller");
+const authenticateWebJWT = require("../../system/middleware/jwt-emp-authenticate");
 
 router.post(
   "/add",
+  authenticateWebJWT,
   celebrate(schema.addSchema, schema.options),
-  c(controller.addEmplyee, (req, res, next) => [req.body])
+  c(controller.addEmplyee, (req, res, next) => [req.body, req.user])
+);
+
+router.get(
+  "/list",
+  authenticateWebJWT,
+  celebrate(schema.getAllByParams, schema.options),
+  c(controller.getListAll, (req, res, next) => [req.query])
+);
+
+router.get(
+  "/:emp_id",
+  authenticateWebJWT,
+  celebrate(schema.getEmpDetail, schema.options),
+  c(controller.getEmpDetail, (req, res, next) => [req.params])
 );
 
 // Multer Configuration

@@ -19,6 +19,12 @@ router.get(
   c(controller.getListAll, (req, res, next) => [req.query])
 );
 
+router.get(
+  "/:user_car_id",
+  celebrate(schema.getUserCarDetail, schema.options),
+  c(controller.getUserCarDetail, (req, res, next) => [req.params])
+);
+
 // Multer Configuration
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });

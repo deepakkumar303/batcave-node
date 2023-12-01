@@ -2,28 +2,36 @@ const mongoose = require("mongoose");
 const boom = require("@hapi/boom");
 const aws = require("aws-sdk");
 const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
+const utilsChecks = require("../../system/utils/checks");
 const service = require("./service");
-const EmployeeIndex = require('./index');
-require('dotenv').config();
+const EmployeeIndex = require("./index");
+const {
+  generateUniqueRandomPassword,
+} = require("../../system/utils/common-utils");
+require("dotenv").config();
 
 const { ObjectId } = mongoose.Types;
 
-const addEmplyee = async (params) => {
-  const employeeDetail = await EmployeeIndex.find({ email: params.email });
-  if (employeeDetail.length > 0) {
-    throw boom.conflict("Employee already exists");
+const addEmplyee = async (params, user) => {
+  if (user.role === "SU") {
+    const employeeDetail = await EmployeeIndex.find({ email: params.email });
+    if (employeeDetail.length > 0) {
+      throw boom.conflict("Employee already exists");
+    }
+    const password = generateUniqueRandomPassword();
+    const hashedPassword = await bcrypt.hash(password, password.length);
+    params.password = hashedPassword;
+    const createUser = await service.create(params);
+    const result = {
+      detail: createUser,
+      message: "Employee added successfully.",
+    };
+    return result;
+  } else {
+    throw boom.conflict("Unauthorized");
   }
-  // const { password } = params;
-  // const hashedPassword = await bcrypt.hash(password, password.length);
-  // params.password = hashedPassword;
-  const createUser = await service.create(params);
-  const result = {
-    detail: createUser,
-    message: "Employee added successfully.",
-  };
-  return result;
 };
 
 const login = async (params) => {
@@ -32,10 +40,11 @@ const login = async (params) => {
     throw boom.conflict("User not found");
   }
 
-
   // Compare the provided password with the stored hashed password
-  const passwordMatch = await bcrypt.compare(params.password, userDetail[0].password);
-
+  const passwordMatch = await bcrypt.compare(
+    params.password,
+    userDetail[0].password
+  );
 
   if (passwordMatch) {
     // if(!userDetail[0].is_verifed) {
@@ -52,9 +61,9 @@ const login = async (params) => {
       email: userDetail[0].email,
       role: userDetail[0].role,
     };
-    
-    const secret =  process.env.JWT_WEB_TOKEN_SECRET;
-    const options = { expiresIn: '1h' };
+
+    const secret = process.env.JWT_WEB_TOKEN_SECRET;
+    const options = { expiresIn: "1h" };
     const token = jwt.sign(payload, secret, options);
 
     // return token
@@ -63,9 +72,107 @@ const login = async (params) => {
       message: "logged in successfully",
     };
   } else {
-    throw boom.conflict('Invalid password');
+    throw boom.conflict("Invalid password");
   }
 };
+
+const getListAll = async (params) => {
+  const matchCond1 = {};
+  const matchCond2 = {};
+  const sortCond = {};
+  const paginatedCond = [];
+  const limitCond = {};
+  const skipCond = {};
+  if (
+    params.search_string &&
+    !utilsChecks.isEmptyString(params.search_string) &&
+    !utilsChecks.isNull(params.search_string)
+  ) {
+    matchCond2.$or = [];
+    matchCond2.$or.push({
+      year: {
+        $regex: params.search_string,
+        $options: "i",
+      },
+    });
+    matchCond2.$or.push({
+      modal: {
+        $regex: params.search_string,
+        $options: "i",
+      },
+    });
+    matchCond2.$or.push({
+      color: {
+        $elemMatch: {
+          $regex: params.search_string,
+          $options: "i",
+        },
+      },
+    });
+    matchCond2.$or.push({
+      vechile_number: {
+        $regex: params.search_string,
+        $options: "i",
+      },
+    });
+    // matchCond2.$or.push({
+    //     'contact_bidders.bidder_name': {
+    //         $regex: params.search_string,
+    //         $options: 'i',
+    //     },
+    // });
+  }
+  const { sortBy } = params;
+  const { sortDir } = params;
+  if (!utilsChecks.isNull(sortBy) && !utilsChecks.isEmptyString(sortBy)) {
+    if (!utilsChecks.isNull(sortDir) && !utilsChecks.isEmptyString(sortDir)) {
+      sortCond[sortBy] = sortDir === "desc" ? -1 : 1;
+    } else {
+      sortCond[sortBy] = 1;
+    }
+  } else {
+    sortCond.createdAt = -1;
+  }
+  skipCond.$skip = params.offset * params.limit;
+  if (params.limit === "" || params.offset === "") {
+    skipCond.$skip = 0;
+  }
+  paginatedCond.push(skipCond);
+  if (params.limit) {
+    limitCond.$limit = params.limit;
+    paginatedCond.push(limitCond);
+  }
+  const facetParams = {
+    matchCondition1: matchCond1,
+    matchCondition2: matchCond2,
+    sortCondition: sortCond,
+    paginatedCondition: paginatedCond,
+    search_string: params.search_string,
+  };
+  // return facetParams
+  const getList = await service.list(facetParams);
+  if (!utilsChecks.isArray(getList) || utilsChecks.isEmptyArray(getList)) {
+    throw boom.notFound("No Data Found");
+  }
+  const result = {
+    message: "List Employee Details",
+    detail: getList,
+  };
+  return result;
+};
+
+const getEmpDetail = async (params) => {
+  const getList = await service.getDetail(params);
+  if (!utilsChecks.isArray(getList) || utilsChecks.isEmptyArray(getList)) {
+    throw boom.notFound("No Data Found");
+  }
+  const result = {
+    message: "employee Details",
+    detail: getList,
+  };
+  return result;
+};
+
 const s3 = new aws.S3({
   accessKeyId: process.env.AWS_S3_ACCESSKEYID,
   secretAccessKey: process.env.AWS_SECRET_ACCESSKEY,
@@ -83,11 +190,11 @@ const uploadFile = async (params) => {
 
   const formatedfile = {
     actual_name: params.originalname,
-    internal_name: uploadResult.Location
+    internal_name: uploadResult.Location,
   };
   const result = {
-      detail: formatedfile,
-      message: 'file successfully uploaded',
+    detail: formatedfile,
+    message: "file successfully uploaded",
   };
   return result;
 };
@@ -128,4 +235,6 @@ module.exports = {
   login,
   uploadFile,
   // deleteFile,
+  getListAll,
+  getEmpDetail,
 };

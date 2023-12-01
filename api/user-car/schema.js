@@ -54,11 +54,10 @@ module.exports.getAllByParams = {
   },
 };
 
-module.exports.loginSchema = {
-  body: joi.object().keys({
-    mobile: joi.string().required(),
-    password: joi.string().required(),
-  }),
+module.exports.getUserCarDetail = {
+  params: {
+    user_car_id: joi.string().required(),
+  },
 };
 
 module.exports.upload = {

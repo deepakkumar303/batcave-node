@@ -31,6 +31,13 @@ router.get(
 );
 
 router.get(
+  "/:event_id",
+  authenticateMobileJWT,
+  celebrate(schema.getEventDetail, schema.options),
+  c(controller.getEventDetail, (req, res, next) => [req.params])
+);
+
+router.get(
   "/mobile/:event_id",
   authenticateMobileJWT,
   celebrate(schema.getEventDetail, schema.options),

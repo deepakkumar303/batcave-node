@@ -31,7 +31,13 @@ const list = async(params) => {
     return result;
 };
 
+const fetchUserCarDetails = async (params) => {
+    const UserCarDetail = await UserCarIndex.find({ _id: params.user_car_id });
+    return UserCarDetail;
+  };
+
 module.exports = {
     create,
-    list
+    list,
+    fetchUserCarDetails
 };

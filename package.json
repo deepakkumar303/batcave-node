@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.456.0",
+    "@aws-sdk/client-s3": "^3.462.0",
     "@hapi/boom": "^10.0.1",
     "aws-sdk": "^2.1501.0",
     "axios": "^1.6.2",

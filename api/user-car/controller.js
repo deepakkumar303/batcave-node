@@ -111,54 +111,17 @@ const getListAll = async (params) => {
   return result;
 };
 
-// const login = async (params) => {
-//   const userDetail = await User.find({ mobile: params.mobile });
-//   if (userDetail.length === 0) {
-//     throw boom.conflict("User not found");
-//   }
-
-//   // Compare the provided password with the stored hashed password
-//   const passwordMatch = await bcrypt.compare(params.password, userDetail[0].password);
-
-//   if (passwordMatch) {
-//     if(!userDetail[0].is_verifed) {
-//       throw boom.conflict("Mobile number not verifed");
-
-//     }
-//     // Generate JWT token
-//     const payload = {
-//       id: userDetail[0]._id,
-//       name: userDetail[0].name,
-//       mobile: userDetail[0].mobile,
-//       dob: userDetail[0].dob,
-//       address: userDetail[0].address,
-//       email: userDetail[0].email,
-//       role: userDetail[0].role,
-//     };
-
-//     const secret = 'your-secret-key';
-//     const options = { expiresIn: '1h' };
-//     const token = jwt.sign(payload, secret, options);
-
-//     // return token
-//     return {
-//       token: token,
-//       message: "logged in successfully",
-//     };
-//   } else {
-//     throw boom.conflict('Invalid password');
-//   }
-
-//   // const { password } = params;
-//   // const hashedPassword = await bcrypt.hash(password, 10);
-//   // params.password = hashedPassword;
-//   // const createUser = await service.create(params);
-//   // const result = {
-//   //   detail: createUser,
-//   //   message: "Please verify OTP",
-//   // };
-//   // return result;
-// };
+const getUserCarDetail = async (params) => {
+  const getList = await service.fetchUserCarDetails(params);
+  if (!utilsChecks.isArray(getList) || utilsChecks.isEmptyArray(getList)) {
+    throw boom.notFound("No Data Found");
+  }
+  const result = {
+    message: "User Car Details",
+    detail: getList,
+  };
+  return result;
+};
 
 const s3 = new aws.S3({
   accessKeyId: process.env.AWS_S3_ACCESSKEYID,
@@ -226,4 +189,5 @@ module.exports = {
   uploadFile,
   getListAll,
   // deleteFile,
+  getUserCarDetail
 };
