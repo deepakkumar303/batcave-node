@@ -27,7 +27,9 @@ function generateUniqueNumericOTP(length) {
 const createOtp = async (params) => {
   const param = {
     mobile: params.mobile,
-    otp: generateUniqueNumericOTP(4),
+    mobile_otp: generateUniqueNumericOTP(4),
+    email: params.email,
+    email_otp: generateUniqueNumericOTP(4),
   };
   console.log('param', param);
 //   const msgTemplate = `our One-Time Password (OTP) is ${param.otp}. This code is valid for 5 minutes. Do not share this code with anyone for security reasons.`

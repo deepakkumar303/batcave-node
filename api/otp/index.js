@@ -15,7 +15,13 @@ const otpSchema = new Schema({
     mobile: {
         type: String,
     },
-    otp: {
+    mobile_otp: {
+        type: String,
+    },
+    email: {
+        type: String,
+    },
+    email_otp: {
         type: String,
     },
 }, {

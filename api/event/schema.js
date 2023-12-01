@@ -42,11 +42,14 @@ module.exports.addSchema = {
   }),
 };
 
-module.exports.loginSchema = {
-  body: joi.object().keys({
-    email: joi.string().required(),
-    password: joi.string().required(),
-  }),
+module.exports.getAllByParams = {
+  query: {
+      search_string: joi.string().allow(null, '').optional(),
+      sortBy: joi.string().allow(null, '').required(),
+      sortDir: joi.string().allow(null, '').required(),
+      limit: joi.number().required(),
+      offset: joi.number().required(),
+  },
 };
 
 module.exports.upload = {

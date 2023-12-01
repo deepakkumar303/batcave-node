@@ -1,7 +1,5 @@
 const express = require("express");
 const multer = require("multer");
-const aws = require("aws-sdk");
-const multerS3 = require("multer-s3");
 
 const router = express.Router();
 const { celebrate } = require("celebrate");
@@ -13,6 +11,12 @@ router.post(
   "/add",
   celebrate(schema.addSchema, schema.options),
   c(controller.register, (req, res, next) => [req.body])
+);
+
+router.get(
+  "/list",
+  celebrate(schema.getAllByParams, schema.options),
+  c(controller.getListAll, (req, res, next) => [req.query])
 );
 
 // Multer Configuration

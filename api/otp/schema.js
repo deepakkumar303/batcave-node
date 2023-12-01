@@ -9,6 +9,15 @@ module.exports.options = {
 module.exports.otpVerifySchema = {
   body: joi.object().keys({
     mobile: joi.string().optional(),
-    otp: joi.string().optional(),
+    mobile_otp: joi.string().optional(),
+    email: joi.string().optional(),
+    email_otp: joi.string().optional(),
+  }),
+};
+
+module.exports.otpResendSchema = {
+  body: joi.object().keys({
+    mobile: joi.string().optional(),
+    email: joi.string().optional(),
   }),
 };

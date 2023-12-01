@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken');
 
 const service = require("./service");
 const User = require('./index');
+const { generateUniqueNumber } = require("../../system/utils/common-utils");
+require('dotenv').config();
 
 const { ObjectId } = mongoose.Types;
 
@@ -17,6 +19,8 @@ const register = async (params) => {
   const { password } = params;
   const hashedPassword = await bcrypt.hash(password, 10);
   params.password = hashedPassword;
+  params.unique_number = generateUniqueNumber();
+
   const createUser = await service.create(params);
   const result = {
     detail: createUser,
@@ -26,7 +30,12 @@ const register = async (params) => {
 };
 
 const login = async (params) => {
-  const userDetail = await User.find({ mobile: params.mobile });
+  const userDetail = await User.find({
+    $or: [
+      { mobile: params.mobile },
+      { unique_number: params.mobile }
+    ]
+  } );
   if (userDetail.length === 0) {
     throw boom.conflict("User not found");
   }
@@ -52,7 +61,7 @@ const login = async (params) => {
       role: userDetail[0].role,
     };
     
-    const secret = 'your-secret-key';
+    const secret = process.env.JWT_MOBILE_TOKEN_SECRET;
     const options = { expiresIn: '1h' };
     const token = jwt.sign(payload, secret, options);
 

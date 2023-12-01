@@ -40,58 +40,9 @@ const userSchema = new Schema({
     role: {
         type: String,
     },
-    // address: {
-    //     type: String,
-    // },
-    // country: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Country',
-    // },
-    // city: {
-    //     type: String,
-    // },
-    // zip: {
-    //     type: String,
-    // },
-    // phone_number: {
-    //     type: String,
-    // },
-    // email: {
-    //     type: String,
-    //     unique: true,
-    //     required: true,
-    // },
-    // title: {
-    //     type: String,
-    // },
-    // department: {
-    //     type: String,
-    // },
-    // role: {
-    //     type: String,
-    //     required: true,
-    // },
-    // proposal_score_card: {
-    //     rating: {
-    //         type: Number,
-    //     },
-    //     count: {
-    //         type: Number,
-    //     },
-    // },
-    // status: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Enum',
-    //     required: true,
-    // },
-    // created_by: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'User',
-    // },
-    // updated_by: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'User',
-    // },
+    unique_number: {
+        type: String,
+    },
 }, {
     timestamps: true,
 });

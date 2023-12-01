@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 // Middleware function for JWT authentication
-const authenticateJWT = (req, res, next) => {
+const authenticateWebJWT = (req, res, next) => {
   const token = req.header('Authorization');
 
   if (!token) {
@@ -19,4 +19,4 @@ const authenticateJWT = (req, res, next) => {
   });
 };
 
-module.exports = authenticateJWT;
+module.exports = authenticateWebJWT;
