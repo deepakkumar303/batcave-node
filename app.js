@@ -171,4 +171,4 @@ app.use(errorHandler.token);
 app.use(errorHandler.validation);
 app.use(errorHandler.all);
 
-app.listen(5000, () => console.log("Example app listening on port 5000!"));
+app.listen(8000, () => console.log("Example app listening on port 8000!"));
