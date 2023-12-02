@@ -14,6 +14,8 @@ const eventRoute = require("./api/event/route");
 
 const axios = require("axios");
 
+console.log('check');
+
 require("dotenv").config();
 
 // const mailjet = require('node-mailjet').connect(
