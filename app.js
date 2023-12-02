@@ -57,7 +57,7 @@ app.use(
 );
 app.use(bodyParser.json({ limit: "50mb" }));
 app.get("/", (req, res) => res.send("Hello World!"));
-app.get("/api/get", (req, res) => res.send("Hello World!"));
+app.get("/api/get", (req, res) => res.send("Hello World!!!!!!!!!!!!!!!!!!!!!"));
 
 app.use("/api/user", userRoutes);
 app.use("/api/otp", otpRoute);
