@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const multer = require("multer");
-const boom = require("@hapi/boom");
+// const boom = require("@hapi/boom");
 const bodyParser = require("body-parser");
 const mongo = require("./system/db/mongo");
 const errorHandler = require("./system/error/handler");
@@ -163,7 +163,8 @@ const sendEmail = async (toEmail, subject, text) => {
 };
 
 app.use((req, res, next) => {
-  throw boom.notFound("Endpoint Not Found");
+  // throw boom.notFound("Endpoint Not Found");
+  res.send("Endpoint Not Found")
 });
 
 app.use(logError);
