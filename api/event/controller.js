@@ -9,11 +9,20 @@ require("dotenv").config();
 
 const { ObjectId } = mongoose.Types;
 
-const addEmplyee = async (params) => {
+const addEvent = async (params) => {
   const eventDetail = await service.create(params);
   const result = {
     detail: eventDetail,
     message: "Employee added successfully.",
+  };
+  return result;
+};
+
+const updateEvent = async (params, body) => {
+  const eventDetail = await service.update(params, body);
+  const result = {
+    // detail: eventDetail,
+    message: "Employee update successfully.",
   };
   return result;
 };
@@ -144,9 +153,10 @@ const uploadFile = async (params) => {
 };
 
 module.exports = {
-  addEmplyee,
+  addEvent,
   uploadFile,
   getListAll,
   getEventDetail,
-  eventApprove
+  eventApprove,
+  updateEvent
 };

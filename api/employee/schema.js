@@ -13,7 +13,7 @@ module.exports.addSchema = {
     dob: joi.string().required(),
     gender: joi.string().required(),
     mobile: joi.number().required(),
-    // password: joi.string().required(),
+    password: joi.string().required(),
     email: joi.string().email().required(),
     bank_details: joi
       .object({

@@ -8,6 +8,7 @@ const { celebrate } = require("celebrate");
 const c = require("../../system/utils/controller-handler");
 const schema = require("./schema");
 const controller = require("./controller");
+const authenticateMobileJWT = require("../../system/middleware/jwt-user-authenticate");
 
 router.post(
   "/register",
@@ -19,6 +20,12 @@ router.post(
   "/login",
   celebrate(schema.loginSchema, schema.options),
   c(controller.login, (req, res, next) => [req.body])
+);
+
+router.get(
+  "/profile",
+  authenticateMobileJWT,
+  c(controller.getProfile, (req, res, next) => [req.user])
 );
 
 // Multer Configuration

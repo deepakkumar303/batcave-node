@@ -11,6 +11,18 @@ require('dotenv').config();
 
 const { ObjectId } = mongoose.Types;
 
+const getProfile = async (user) => {
+  const reqParams = {
+    emp_id: user.id
+  }
+  const userDetail = await service.getDetail(reqParams);
+  const result = {
+    detail: userDetail,
+    message: "Profile Details",
+  };
+  return result;
+};
+
 const register = async (params) => {
   const userDetail = await User.find({ mobile: params.mobile });
   if (userDetail.length > 0) {
@@ -146,4 +158,5 @@ module.exports = {
   login,
   uploadFile,
   deleteFile,
+  getProfile
 };

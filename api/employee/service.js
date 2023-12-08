@@ -39,6 +39,7 @@ const list = async (params) => {
 };
 
 const getDetail = async (params) => {
+  console.log('params', params);
   const result = await EmployeeIndex.aggregate([
     {
       $match: {

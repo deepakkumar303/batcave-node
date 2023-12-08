@@ -6,6 +6,14 @@ const create = async (params) => {
   return newEvent;
 };
 
+const update = async (params, body) => {
+  const newEvent = await EventIndex.findOneAndUpdate(
+    { _id: params.event_id },
+    body
+  );
+  return newEvent;
+};
+
 const list = async (params) => {
   const result = await EventIndex.aggregate([
     {
@@ -39,5 +47,6 @@ const fetchDetails = async (params) => {
 module.exports = {
   create,
   list,
-  fetchDetails
+  fetchDetails,
+  update
 };

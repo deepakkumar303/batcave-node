@@ -14,6 +14,18 @@ require("dotenv").config();
 
 const { ObjectId } = mongoose.Types;
 
+const getProfile = async (user) => {
+  const reqParams = {
+    emp_id: user.id
+  }
+  const userDetail = await service.getDetail(reqParams);
+  const result = {
+    detail: userDetail,
+    message: "Profile Details",
+  };
+  return result;
+};
+
 const addEmplyee = async (params, user) => {
   if (user.role === "SU") {
     const employeeDetail = await EmployeeIndex.find({ email: params.email });
@@ -70,6 +82,7 @@ const login = async (params) => {
     return {
       token: token,
       message: "logged in successfully",
+      userDetail: userDetail,
     };
   } else {
     throw boom.conflict("Invalid password");
@@ -237,4 +250,5 @@ module.exports = {
   // deleteFile,
   getListAll,
   getEmpDetail,
+  getProfile,
 };

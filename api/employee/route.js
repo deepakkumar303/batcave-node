@@ -16,6 +16,12 @@ router.post(
 );
 
 router.get(
+  "/profile",
+  authenticateWebJWT,
+  c(controller.getProfile, (req, res, next) => [req.user])
+);
+
+router.get(
   "/list",
   authenticateWebJWT,
   celebrate(schema.getAllByParams, schema.options),

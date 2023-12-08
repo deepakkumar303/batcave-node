@@ -13,7 +13,14 @@ router.post(
   "/add",
   authenticateWebJWT,
   celebrate(schema.addSchema, schema.options),
-  c(controller.addEmplyee, (req, res, next) => [req.body])
+  c(controller.addEvent, (req, res, next) => [req.body])
+);
+
+router.put(
+  "/update/:event_id",
+  authenticateWebJWT,
+  celebrate(schema.updateSchema, schema.options),
+  c(controller.updateEvent, (req, res, next) => [req.params, req.body])
 );
 
 router.get(
