@@ -11,6 +11,7 @@ const otpRoute = require("./api/otp/route");
 const userCar = require("./api/user-car/route");
 const employeeRoute = require("./api/employee/route");
 const eventRoute = require("./api/event/route");
+const cors = require('cors');
 
 const axios = require("axios");
 
@@ -49,6 +50,8 @@ process.on("SIGINT", () => {
     process.exit(1);
   }, 4000);
 });
+
+app.use(cors());
 
 app.use(
   bodyParser.urlencoded({
