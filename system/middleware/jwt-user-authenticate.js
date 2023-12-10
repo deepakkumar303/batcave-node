@@ -11,7 +11,7 @@ const authenticateMobileJWT = (req, res, next) => {
 
   jwt.verify(token, process.env.JWT_MOBILE_TOKEN_SECRET, (err, user) => {
     if (err) {
-      return res.status(403).json({ error: 'Forbidden' });
+      return res.status(403).json({ error: 'Unauthorized' });
     }
 
     req.user = user;

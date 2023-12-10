@@ -12,7 +12,7 @@ const authenticateWebJWT = (req, res, next) => {
 
   jwt.verify(token, process.env.JWT_WEB_TOKEN_SECRET, (err, user) => {
     if (err) {
-      return res.status(403).json({ error: 'Forbidden' });
+      return res.status(403).json({ error: 'Unauthorized' });
     }
 
     req.user = user;

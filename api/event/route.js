@@ -39,7 +39,7 @@ router.get(
 
 router.get(
   "/:event_id",
-  authenticateMobileJWT,
+  authenticateWebJWT,
   celebrate(schema.getEventDetail, schema.options),
   c(controller.getEventDetail, (req, res, next) => [req.params])
 );
