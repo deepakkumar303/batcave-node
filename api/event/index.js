@@ -39,11 +39,21 @@ const eventSchema = new Schema(
       required: true,
     },
     location: {
+      location: {
+        type: String,
+        required: true,
+      },      
       address_line1: {
         type: String,
         required: true,
       },
       address_line2: {
+        type: String,
+      },
+      country: {
+        type: String,
+      },
+      state: {
         type: String,
       },
       city: {
