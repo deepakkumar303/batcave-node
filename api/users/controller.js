@@ -74,7 +74,7 @@ const login = async (params) => {
     };
     
     const secret = process.env.JWT_MOBILE_TOKEN_SECRET;
-    const options = { expiresIn: '1h' };
+    const options = { expiresIn: '99h' };
     const token = jwt.sign(payload, secret, options);
 
     // return token

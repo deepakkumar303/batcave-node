@@ -13,6 +13,7 @@ module.exports.addSchema = {
     from_date: joi.date().iso().required(),
     to_date: joi.date().iso().required(),
     from_time: joi.date().iso().required(),
+    // password: joi.date().iso().required(),
     to_time: joi.date().iso().required(),
     contact_person: joi.string().required(),
     mobile: joi.string().required(),
