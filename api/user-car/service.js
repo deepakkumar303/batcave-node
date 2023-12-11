@@ -6,6 +6,14 @@ const create = async(params) => {
     return newUserCar;
 };
 
+const update = async (params, body) => {
+    const newUserCar = await UserCarIndex.findOneAndUpdate(
+      { _id: params.user_car_id },
+      body
+    );
+    return newUserCar;
+  };
+
 const list = async(params) => {
     const result = await UserCarIndex.aggregate(
         [
@@ -39,5 +47,6 @@ const fetchUserCarDetails = async (params) => {
 module.exports = {
     create,
     list,
-    fetchUserCarDetails
+    fetchUserCarDetails,
+    update
 };

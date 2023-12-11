@@ -26,6 +26,15 @@ const register = async (params) => {
   return result;
 };
 
+const updateUserCar = async (params, body) => {
+  const userCarDetail = await service.update(params, body);
+  const result = {
+    // detail: eventDetail,
+    message: "Employee update successfully.",
+  };
+  return result;
+};
+
 const getListAll = async (params) => {
   const matchCond1 = {};
   const matchCond2 = {};
@@ -189,5 +198,6 @@ module.exports = {
   uploadFile,
   getListAll,
   // deleteFile,
-  getUserCarDetail
+  getUserCarDetail,
+  updateUserCar
 };

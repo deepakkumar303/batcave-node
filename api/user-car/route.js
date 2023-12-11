@@ -6,6 +6,7 @@ const { celebrate } = require("celebrate");
 const c = require("../../system/utils/controller-handler");
 const schema = require("./schema");
 const controller = require("./controller");
+const authenticateMobileJWT = require("../../system/middleware/jwt-user-authenticate");
 
 router.post(
   "/add",
@@ -18,6 +19,14 @@ router.get(
   celebrate(schema.getAllByParams, schema.options),
   c(controller.getListAll, (req, res, next) => [req.query])
 );
+
+router.put(
+  "/update/:user_car_id",
+  authenticateMobileJWT,
+  celebrate(schema.updateSchema, schema.options),
+  c(controller.updateUserCar, (req, res, next) => [req.params, req.body])
+);
+
 
 router.get(
   "/:user_car_id",
