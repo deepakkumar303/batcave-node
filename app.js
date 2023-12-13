@@ -11,11 +11,11 @@ const otpRoute = require("./api/otp/route");
 const userCar = require("./api/user-car/route");
 const employeeRoute = require("./api/employee/route");
 const eventRoute = require("./api/event/route");
-const cors = require('cors');
+const cors = require("cors");
 
 const axios = require("axios");
 
-console.log('check');
+console.log("check");
 
 require("dotenv").config();
 
@@ -78,6 +78,32 @@ app.use(
 app.use(bodyParser.json({ limit: "50mb" }));
 app.get("/", (req, res) => res.send("Hello World!"));
 app.get("/api/get", (req, res) => res.send("Hello World test"));
+
+app.use((req, res, next) => {
+  console.log('checclkkkkkkkkkkkkkkkkkkkkkkk');
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept ,authorization"
+  );
+  if (req.method === "OPTIONS") {
+    res.header(
+      "Access-Control-Allow-Methods",
+      "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+    );
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept ,authorization"
+    );
+    return res.status(200).json({});
+  }
+  next();
+});
 
 app.use("/api/user", userRoutes);
 app.use("/api/otp", otpRoute);
@@ -184,7 +210,7 @@ const sendEmail = async (toEmail, subject, text) => {
 
 app.use((req, res, next) => {
   // throw boom.notFound("Endpoint Not Found");
-  res.send("Endpoint Not Found")
+  res.send("Endpoint Not Found");
 });
 
 app.use(logError);
@@ -192,4 +218,6 @@ app.use(errorHandler.token);
 app.use(errorHandler.validation);
 app.use(errorHandler.all);
 
-app.listen(process.env.PORT, () => console.log("Example app listening on port 5000!"));
+app.listen(process.env.PORT, () =>
+  console.log("Example app listening on port 5000!")
+);
