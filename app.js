@@ -51,7 +51,24 @@ process.on("SIGINT", () => {
   }, 4000);
 });
 
-app.use(cors());
+// app.use(cors());
+
+const corsOpts = {
+  origin: '*',
+
+  methods: [
+    'GET',
+    'POST',
+    'PUT',
+    'DELETE'
+  ],
+
+  allowedHeaders: [
+    'Content-Type',
+  ],
+};
+
+app.use(cors(corsOpts));
 
 app.use(
   bodyParser.urlencoded({

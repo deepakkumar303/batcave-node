@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const aws = require("aws-sdk");
-
+const boom = require("@hapi/boom");
 const EventIndex = require("./index");
 const utilsChecks = require("../../system/utils/checks");
 
