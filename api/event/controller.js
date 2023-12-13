@@ -13,7 +13,7 @@ const addEvent = async (params) => {
   const eventDetail = await service.create(params);
   const result = {
     detail: eventDetail,
-    message: "Employee added successfully.",
+    message: "Event added successfully.",
   };
   return result;
 };
@@ -22,7 +22,7 @@ const updateEvent = async (params, body) => {
   const eventDetail = await service.update(params, body);
   const result = {
     // detail: eventDetail,
-    message: "Employee update successfully.",
+    message: "Event update successfully.",
   };
   return result;
 };
