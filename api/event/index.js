@@ -64,12 +64,12 @@ const eventSchema = new Schema(
         type: String,
         required: true,
       },
-      lat: {
-        type: String,
-      },
-      lan: {
-        type: String,
-      },
+      // lat: {
+      //   type: String,
+      // },
+      // lan: {
+      //   type: String,
+      // },
     },
     description: {
       type: String,

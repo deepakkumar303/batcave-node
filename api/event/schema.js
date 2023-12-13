@@ -26,8 +26,8 @@ module.exports.addSchema = {
         address_line2: joi.string(),
         city: joi.string().required(),
         pin: joi.string().required(),
-        lat: joi.string(),
-        lan: joi.string(),
+        // lat: joi.string(),
+        // lan: joi.string(),
       })
       .required(),
     description: joi.string().required(),
@@ -67,8 +67,8 @@ module.exports.updateSchema = {
         state: joi.string().required(),
         city: joi.string().required(),
         pin: joi.string().required(),
-        lat: joi.string(),
-        lan: joi.string(),
+        // lat: joi.string(),
+        // lan: joi.string(),
       })
       .required(),
     description: joi.string().required(),
