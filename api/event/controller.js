@@ -122,7 +122,7 @@ const eventApprove = async (params) => {
     { is_approved: true }
   );
   return {
-    message: "event successfully approved",
+    message: "Event Successfully Approved",
   };
 };
 
