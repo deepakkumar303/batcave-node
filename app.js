@@ -80,7 +80,7 @@ app.get("/", (req, res) => res.send("Hello World!"));
 app.get("/api/get", (req, res) => res.send("Hello World test"));
 
 app.use((req, res, next) => {
-  console.log('checclkkkkkkkkkkkkkkkkkkkkkkk');
+  console.log('check');
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Methods",
