@@ -58,6 +58,20 @@ router.post(
   c(controller.eventApprove, (req, res, next) => [req.body])
 );
 
+router.post(
+  "/reject",
+  authenticateWebJWT,
+  celebrate(schema.rejectSchema, schema.options),
+  c(controller.eventReject, (req, res, next) => [req.body])
+);
+
+router.delete(
+  "/delete",
+  authenticateWebJWT,
+  celebrate(schema.deleteSchema, schema.options),
+  c(controller.eventDelete, (req, res, next) => [req.body])
+);
+
 // Multer Configuration
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });

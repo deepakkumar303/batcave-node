@@ -119,10 +119,39 @@ const eventApprove = async (params) => {
   }
   await EventIndex.findOneAndUpdate(
     { _id: params.event_id },
-    { is_approved: true }
+    { is_approved: true, is_rejected: false }
   );
   return {
     message: "Event Successfully Approved",
+  };
+};
+
+const eventReject = async (params) => {
+  const EventDetail = await EventIndex.find({ _id: params.event_id });
+  if (EventDetail.length === 0) {
+    throw boom.conflict("No data found");
+  }
+  await EventIndex.findOneAndUpdate(
+    { _id: params.event_id },
+    { is_approved: false, is_rejected: true }
+  );
+  return {
+    message: "Event Successfully Rejected",
+  };
+};
+
+const eventDelete = async (params) => {
+  // const EventDetail = await EventIndex.find({ _id: params.event_id });
+  const EventDetail = await EventIndex.findOneAndDelete({ _id: params.event_id });
+  if (EventDetail.length === 0) {
+    throw boom.conflict("No data found");
+  }
+  // await EventIndex.findOneAndUpdate(
+  //   { _id: params.event_id },
+  //   { is_approved: false, is_rejected: true }
+  // );
+  return {
+    message: "Event Successfully Deleted",
   };
 };
 
@@ -158,5 +187,7 @@ module.exports = {
   getListAll,
   getEventDetail,
   eventApprove,
-  updateEvent
+  updateEvent,
+  eventReject,
+  eventDelete
 };

@@ -119,6 +119,10 @@ const eventSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    is_rejected: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

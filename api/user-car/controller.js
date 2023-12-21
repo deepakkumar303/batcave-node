@@ -26,6 +26,21 @@ const register = async (params) => {
   return result;
 };
 
+const userCarDelete = async (params) => {
+  // const EventDetail = await EventIndex.find({ _id: params.event_id });
+  const EventDetail = await UserCarIndex.findOneAndDelete({ _id: params.user_car_id });
+  if (EventDetail.length === 0) {
+    throw boom.conflict("No data found");
+  }
+  // await EventIndex.findOneAndUpdate(
+  //   { _id: params.event_id },
+  //   { is_approved: false, is_rejected: true }
+  // );
+  return {
+    message: "User Car Successfully Deleted",
+  };
+};
+
 const updateUserCar = async (params, body) => {
   const userCarDetail = await service.update(params, body);
   const result = {
@@ -199,5 +214,6 @@ module.exports = {
   getListAll,
   // deleteFile,
   getUserCarDetail,
-  updateUserCar
+  updateUserCar,
+  userCarDelete
 };

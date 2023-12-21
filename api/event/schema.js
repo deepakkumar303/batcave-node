@@ -114,6 +114,18 @@ module.exports.approveSchema = {
   },
 };
 
+module.exports.rejectSchema = {
+  body: {
+    event_id: joi.string().required(),
+  },
+};
+
+module.exports.deleteSchema = {
+  body: {
+    event_id: joi.string().required(),
+  },
+};
+
 module.exports.upload = {
   body: joi.object({
     file: joi.object({

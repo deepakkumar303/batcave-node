@@ -44,6 +44,12 @@ module.exports.addSchema = {
   }),
 };
 
+module.exports.deleteSchema = {
+  body: {
+    user_car_id: joi.string().required(),
+  },
+};
+
 module.exports.updateSchema = {
   body: joi.object().keys({
     vechile_number: joi.string().required(),

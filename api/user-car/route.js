@@ -14,6 +14,12 @@ router.post(
   c(controller.register, (req, res, next) => [req.body])
 );
 
+router.delete(
+  "/delete",
+  celebrate(schema.deleteSchema, schema.options),
+  c(controller.userCarDelete, (req, res, next) => [req.body])
+);
+
 router.get(
   "/list",
   celebrate(schema.getAllByParams, schema.options),
