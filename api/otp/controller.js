@@ -25,7 +25,8 @@ const resendOtp = async (params) => {
   const emailParams = {
     name: params.name,
     otp: response.email_otp,
-    email: params.email
+    email: params.email,
+    mobile_otp: response.mobile_otp,
   }
   const smsParams = {
     name: params.name,
@@ -33,7 +34,7 @@ const resendOtp = async (params) => {
     mobile: params.mobile
   }
   await sendEmailOtp(emailParams)
-  await sendMobileOtp(smsParams)
+  // await sendMobileOtp(smsParams)
   const result = {
     // detail: otpDetail,
     message: "Please verify OTP",

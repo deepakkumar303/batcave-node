@@ -43,6 +43,10 @@ const userSchema = new Schema({
     unique_number: {
         type: String,
     },
+    membership: {
+        type: String,
+        default: '',
+    },
 }, {
     timestamps: true,
 });

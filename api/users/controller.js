@@ -43,6 +43,15 @@ const register = async (params) => {
   return result;
 };
 
+const updateEvent = async (params, body) => {
+  const userDetail = await service.update(params, body);
+  const result = {
+    // detail: userDetail,
+    message: "User update successfully.",
+  };
+  return result;
+};
+
 const login = async (params) => {
   const userDetail = await User.find({
     $or: [
@@ -160,5 +169,6 @@ module.exports = {
   login,
   uploadFile,
   deleteFile,
-  getProfile
+  getProfile,
+  updateEvent
 };

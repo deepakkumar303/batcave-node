@@ -16,6 +16,12 @@ router.post(
   c(controller.register, (req, res, next) => [req.body])
 );
 
+router.put(
+  "/update/:user_id",
+  celebrate(schema.updateSchema, schema.options),
+  c(controller.updateEvent, (req, res, next) => [req.params, req.body])
+);
+
 router.post(
   "/login",
   celebrate(schema.loginSchema, schema.options),

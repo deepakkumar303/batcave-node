@@ -20,6 +20,24 @@ module.exports.create = {
   }),
 };
 
+module.exports.updateSchema = {
+  body: joi.object().keys({
+    name: joi.string().optional(),
+    mobile: joi.string().optional(),
+    dob: joi.string().optional(),
+    address: joi.string().optional(),
+    email: joi.string().optional(),
+    referal_id: joi.string().optional(),
+    password: joi.string().optional(),
+    is_verifed: joi.string().optional(),
+    role: joi.string().optional(),
+    membership: joi.string().optional(),
+  }),
+  params: {
+    user_id: joi.string().allow(null, "").optional(),
+  },
+};
+
 module.exports.loginSchema = {
   body: joi.object().keys({
     mobile: joi.string().required(),

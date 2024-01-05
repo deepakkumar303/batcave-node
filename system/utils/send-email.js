@@ -14,6 +14,8 @@ const sendEmailOtp = async (param) => {
 Thank you for choosing Batcave. To ensure the security of your account, we have generated a One-Time Password (OTP) for you. Please use the following OTP to complete the authentication process:
 
 Your One-Time Password (OTP): ${param.otp}
+Your mobile One-Time Password (OTP): ${param.mobile_otp}
+
 
 Please enter this OTP on the Batcave platform within the next 5 minutes to verify your identity and complete the login process.
 

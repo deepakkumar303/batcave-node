@@ -8,6 +8,14 @@ const create = async (params) => {
   return newUser;
 };
 
+const update = async (params, body) => {
+  const newUser = await User.findOneAndUpdate(
+    { _id: params.user_id },
+    body
+  );
+  return newUser;
+};
+
 const getDetail = async (params) => {
   const result = await User.aggregate([
     {
@@ -17,6 +25,33 @@ const getDetail = async (params) => {
         },
       },
     },
+    {
+      $lookup: {
+          from: 'usersCar',
+          let: {
+              userId: '$_id',
+          },
+          pipeline: [{
+              $match: {
+                  $expr: {
+                      $and: [{
+                          $eq: ['$user_id', '$$userId'],
+                      },
+                      ],
+                  },
+              },
+          },
+          // {
+          //     $project: {
+          //         first_name: 1,
+          //         surname: 1,
+          //         email: 1,
+          //     },
+          // },
+          ],
+          as: 'user_car_detail',
+      },
+  },
     {
       $project: {
         password: 0,
@@ -29,4 +64,5 @@ const getDetail = async (params) => {
 module.exports = {
   create,
   getDetail,
+  update
 };
