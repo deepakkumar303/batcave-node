@@ -80,7 +80,7 @@ app.get("/", (req, res) => res.send("Hello World!"));
 app.get("/api/get", (req, res) => res.send("Hello World test"));
 
 app.use((req, res, next) => {
-  console.log('check');
+  console.log("check");
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Methods",
@@ -110,103 +110,6 @@ app.use("/api/otp", otpRoute);
 app.use("/api/user-car", userCar);
 app.use("/api/employee", employeeRoute);
 app.use("/api/event", eventRoute);
-
-app.get("/send-email", async (req, res) => {
-  const toEmail = "kumard312@gmail.com";
-  const subject = "Test Email";
-  const text = "Hello, this is a test email from Mailjet!";
-
-  await sendEmail(toEmail, subject, text);
-
-  res.send("Email sent successfully!");
-});
-
-const sendEmail = async (toEmail, subject, text) => {
-  // const { apiKey, apiSecret } = mailjetConfig;
-
-  // const mailjetApiUrl = 'https://api.mailjet.com/v3.1/send';
-
-  // const payload = {
-  //   Messages: [
-  //     {
-  //       From: {
-  //         Email: 'kumard312@gmail.com',
-  //         Name: 'Your Name',
-  //       },
-  //       To: [
-  //         {
-  //           Email: toEmail,
-  //         },
-  //       ],
-  //       Subject: subject,
-  //       TextPart: text,
-  //     },
-  //   ],
-  // };
-
-  // try {
-  //   const response = await axios.post(mailjetApiUrl, payload, {
-  //     auth: {
-  //       username: '6ffbcc5cffa9fdd9b5c6514d313baf7a',
-  //       password: '158fa1814b06c9a743886c3de20f2589',
-  //     },
-  //   });
-
-  //   console.log('Email sent:', response.data);
-
-  // } catch (error) {
-  //   console.error('Error sending email:', error.response ? error.response.data : error.message);
-  // }
-
-  // const request = mailjet.post('send').request({
-  //   FromEmail: 'kumard312@gmail.com',
-  //   FromName: 'Mailjet Pilot',
-  //   Subject: 'Your email flight plan!',
-  //   'Text-part':
-  //     'Dear passenger, welcome to Mailjet! May the delivery force be with you!',
-  //   'Html-part':
-  //     '<h3>Dear passenger, welcome to <a href="https://www.mailjet.com/">Mailjet</a>!<br />May the delivery force be with you!',
-  //   To: 'Name <kumard312@gmail.com>',
-  //   CC: '',
-  // })
-  // request
-  //   .then(result => {
-  //     console.log(result.body)
-  //   })
-  //   .catch(err => {
-  //     console.log(err.statusCode)
-  //   })
-
-  const request = mailjet.post("send", { version: "v3.1" }).request({
-    Messages: [
-      {
-        From: {
-          Email: "kumard312@gmail.com",
-          Name: "Mailjet Pilot",
-        },
-        To: [
-          {
-            Email: "kumard312@gmail.com",
-            Name: "passenger 1",
-          },
-        ],
-        Subject: "Your email flight plan!",
-        TextPart:
-          "Dear passenger 1, welcome to Mailjet! May the delivery force be with you!",
-        HTMLPart:
-          '<h3>Dear passenger 1, welcome to <a href="https://www.mailjet.com/">Mailjet</a>!</h3><br />May the delivery force be with you!',
-      },
-    ],
-  });
-
-  request
-    .then((result) => {
-      console.log(result.body);
-    })
-    .catch((err) => {
-      console.log(err.statusCode);
-    });
-};
 
 app.use((req, res, next) => {
   // throw boom.notFound("Endpoint Not Found");

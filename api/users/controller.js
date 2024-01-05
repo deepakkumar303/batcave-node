@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
 const service = require("./service");
 const User = require('./index');
 const { generateUniqueNumber } = require("../../system/utils/common-utils");
+const { resendOtp } = require("../otp/controller");
 require('dotenv').config();
 
 const { ObjectId } = mongoose.Types;
@@ -32,8 +33,9 @@ const register = async (params) => {
   const hashedPassword = await bcrypt.hash(password, 10);
   params.password = hashedPassword;
   params.unique_number = generateUniqueNumber();
-
+  
   const createUser = await service.create(params);
+  await resendOtp(createUser);
   const result = {
     detail: createUser,
     message: "Please verify OTP",

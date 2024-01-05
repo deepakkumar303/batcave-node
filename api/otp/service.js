@@ -31,23 +31,6 @@ const createOtp = async (params) => {
     email: params.email,
     email_otp: generateUniqueNumericOTP(4),
   };
-  console.log('param', param);
-//   const msgTemplate = `our One-Time Password (OTP) is ${param.otp}. This code is valid for 5 minutes. Do not share this code with anyone for security reasons.`
-// //   client.messages
-// //     .create({
-// //       body: msgTemplate,
-// //       from: twilioPhoneNumber,
-// //       to: param.mobile,
-// //     })
-// //     .then((message) => console.log(`Message sent with SID: ${message.sid}`))
-// //     .catch((error) => console.error(`Error sending message: ${error.message}`));
-// client.messages
-//   .create({
-//      body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
-//      from: '+12402417770',
-//      to: '+917010072734'
-//    })
-//   .then(message => console.log(message.sid));
   const OtpDetail = await Otp.create(param);
   return OtpDetail;
 };

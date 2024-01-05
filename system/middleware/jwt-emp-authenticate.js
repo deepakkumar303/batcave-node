@@ -4,8 +4,6 @@ require('dotenv').config();
 // Middleware function for JWT authentication
 const authenticateWebJWT = (req, res, next) => {
   const token = req.header('Authorization');
-  console.log('token-----------------', token)
-
   if (!token) {
     return res.status(401).json({ error: 'Unauthorized' });
   }

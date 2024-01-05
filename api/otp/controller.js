@@ -7,16 +7,33 @@ const jwt = require("jsonwebtoken");
 const service = require("./service");
 const User = require("../users/index");
 const Otp = require("./index");
+const { sendEmailOtp } = require("../../system/utils/send-email");
+const { sendMobileOtp } = require("../../system/utils/send-sms");
 
 const { ObjectId } = mongoose.Types;
 
 const resendOtp = async (params) => {
-  const otpDetail = await Otp.find({ mobile: params.mobile });
+
+  const otpDetail = await Otp.find({ mobile: params.mobile, email: params.email });
   if (otpDetail.length > 0) {
     await Otp.findOneAndDelete({ mobile: params.mobile });
   }
 
+  const userDetail = await User.find({ mobile: params.mobile });
+
   const response = await service.createOtp(params);
+  const emailParams = {
+    name: params.name,
+    otp: response.email_otp,
+    email: params.email
+  }
+  const smsParams = {
+    name: params.name,
+    otp: response.mobile_otp,
+    mobile: params.mobile
+  }
+  await sendEmailOtp(emailParams)
+  await sendMobileOtp(smsParams)
   const result = {
     // detail: otpDetail,
     message: "Please verify OTP",
