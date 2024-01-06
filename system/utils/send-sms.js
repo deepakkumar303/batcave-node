@@ -46,7 +46,7 @@ const sendMobileOtp = async (param) => {
       from: "+12402417770",
       to: `+91${param.mobile}`,
     })
-    .then((message) => console.log(message.sid));
+    .then((message) => console.log('message.sid', message.sid));
 };
 
 module.exports = {
