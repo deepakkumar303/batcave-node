@@ -1,12 +1,6 @@
 const mongoose = require("mongoose");
 const Otp = require("./index");
 
-const accountSid = "AC24cf2db197c7092eddab4a4dc84dc9b9";
-const authToken = "5e5e19dba9d739830a87c177a11b4001";
-const twilioPhoneNumber = "+12402417770";
-
-const client = require("twilio")(accountSid, authToken);
-
 const usedOTPs = new Set();
 function generateUniqueNumericOTP(length) {
   const digits = "0123456789";

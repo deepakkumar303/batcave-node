@@ -1,3 +1,4 @@
+require("dotenv").config();
 
 const sendMobileOtp = async (param) => {
 //   const transporter = nodemailer.createTransport({
@@ -35,8 +36,8 @@ const sendMobileOtp = async (param) => {
 //   const response = await transporter.sendMail(mailOptions);
 //   console.log("check=-----------------------", response);
 
-  const accountSid = "AC8cdf39bfab67cb47dcd9b726c58e7428";
-  const authToken = "77936b578e5091aabe0405ddf13f4399";
+  const accountSid = process.env.TWILIO_AUTH_SID;
+  const authToken = process.env.TWILIO_AUTH_TOKEN;
   const client = require("twilio")(accountSid, authToken);
 
   client.messages
@@ -45,9 +46,7 @@ const sendMobileOtp = async (param) => {
       from: "+12402417770",
       to: `+91${param.mobile}`,
     })
-    .then((message) => console.log(message.sid).catch((e)=>{
-      console.log(e)
-    }));
+    .then((message) => console.log(message.sid));
 };
 
 module.exports = {
