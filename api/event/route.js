@@ -33,8 +33,8 @@ router.get(
 router.get(
   "/list-mobile",
   authenticateMobileJWT,
-  celebrate(schema.getAllByParams, schema.options),
-  c(controller.getListAll, (req, res, next) => [req.query])
+  celebrate(schema.getAllByParamsByMobile, schema.options),
+  c(controller.getListAllMobile, (req, res, next) => [req.query])
 );
 
 router.get(
