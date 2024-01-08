@@ -83,6 +83,9 @@ const eventSchema = new Schema(
       type: Number,
       required: true,
     },
+    remaining_ticket_count: {
+      type: Number,
+    },
     points_free_member: {
       type: Number,
       required: true,

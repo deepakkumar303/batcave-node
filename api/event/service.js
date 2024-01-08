@@ -92,9 +92,9 @@ const listMobile = async (params) => {
         },
       },
     },
-    {
-      $unset: ["purchased_event_detail"],
-    },
+    // {
+    //   $unset: ["purchased_event_detail"],
+    // },
     {
       $sort: params.sortCondition,
     },

@@ -9,7 +9,7 @@ module.exports.options = {
 module.exports.addSchema = {
   body: joi.object().keys({
     car: joi.string().required(),
-    no_of_people: joi.string().required(),
+    no_of_people: joi.number().required(),
     unique_id: joi.string().required(),
     name: joi.string().required(),
     mobile: joi.string().required(),

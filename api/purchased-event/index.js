@@ -10,8 +10,11 @@ const purchasedEventSchema = new Schema(
       type: String,
       required: true,
     },
+    seat_number: {
+      type: Array,
+    },
     no_of_people: {
-      type: String,
+      type: Number,
       required: true,
     },
     unique_id: {

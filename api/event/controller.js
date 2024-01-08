@@ -10,7 +10,8 @@ require("dotenv").config();
 const { ObjectId } = mongoose.Types;
 
 const addEvent = async (params) => {
-  const eventDetail = await service.create(params);
+  params.remaining_ticket_count = params.ticket_count;
+  const eventDetail = await service.create(params);  
   const result = {
     detail: eventDetail,
     message: "Event added successfully.",

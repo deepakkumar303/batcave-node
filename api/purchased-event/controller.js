@@ -5,17 +5,49 @@ const EventIndex = require("./index");
 const utilsChecks = require("../../system/utils/checks");
 
 const service = require("./service");
+const eventService = require("../event/service");
+const { generateTicketNumbers } = require("../../system/utils/common-utils");
 require("dotenv").config();
 
 const { ObjectId } = mongoose.Types;
 
 const addPurchaseEvent = async (params) => {
-  const eventDetail = await service.fetchDetails(params);
-  console.log('eventDetail', eventDetail);
-  if(eventDetail.length > 0) {
+  const purchasedEventDetail = await service.fetchDetails(params);
+  const eventParams = {
+    event_id: params.event_id,
+  };
+  const eventDetail = await eventService.fetchDetails(eventParams);
+  if (!eventDetail && eventDetail.length === 0) {
+    throw boom.conflict("Event not found");
+  }
+  if (purchasedEventDetail.length > 0) {
     throw boom.conflict("Already Purchased");
   }
-  // return eventDetail;
+  if (eventDetail[0].remaining_ticket_count === 0) {
+    throw boom.conflict("Event sold out");
+  }
+  if (eventDetail[0].remaining_ticket_count < params.no_of_people) {
+    throw boom.conflict("There are fewer events than you requested.");
+  }
+  const eventRemainingTickets = eventDetail[0].remaining_ticket_count;
+  const updatedRemainingTicket = eventRemainingTickets - params.no_of_people;
+  console.log("updatedRemainingTicket", updatedRemainingTicket);
+  const ticketPrefix = eventDetail[0].name.charAt(0).toUpperCase();
+  const tickets = generateTicketNumbers(
+    ticketPrefix,
+    params.no_of_people,
+    eventRemainingTickets
+  );
+  params.seat_number = tickets;
+
+  const eventBody = {
+    remaining_ticket_count: updatedRemainingTicket
+  }
+
+  await eventService.update(eventParams, eventBody);
+
+  // return { tickets };
+
   const eventPurchaseDetail = await service.create(params);
   const result = {
     detail: eventPurchaseDetail,
@@ -79,15 +111,15 @@ const getListAllByMobile = async (params) => {
     paginatedCond.push(limitCond);
   }
 
-  const user_id = new ObjectId(params.user_id.toString())
-  
+  const user_id = new ObjectId(params.user_id.toString());
+
   const facetParams = {
     matchCondition1: matchCond1,
     matchCondition2: matchCond2,
     sortCondition: sortCond,
     paginatedCondition: paginatedCond,
     search_string: params.search_string,
-    user_id: user_id
+    user_id: user_id,
   };
   const getList = await service.listMobile(facetParams);
   if (!utilsChecks.isArray(getList) || utilsChecks.isEmptyArray(getList)) {
@@ -102,5 +134,5 @@ const getListAllByMobile = async (params) => {
 
 module.exports = {
   addPurchaseEvent,
-  getListAllByMobile
+  getListAllByMobile,
 };

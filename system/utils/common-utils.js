@@ -58,7 +58,18 @@ function generateUniqueRandomPassword() {
   return password;
 }
 
+function generateTicketNumbers(prefix, count, eventRemainingTickets) {
+  const ticketNumbers = [];
+
+  for (let i = 0; i < count; i++) {
+    ticketNumbers.push(`${prefix}${eventRemainingTickets - i}`);
+  }
+
+  return ticketNumbers;
+}
+
 module.exports = {
   generateUniqueNumber,
-  generateUniqueRandomPassword
+  generateUniqueRandomPassword,
+  generateTicketNumbers
 };
