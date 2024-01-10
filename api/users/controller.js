@@ -70,7 +70,7 @@ const login = async (params) => {
 
   if (passwordMatch) {
     if(!userDetail[0].is_verifed) {
-      throw boom.conflict("Mobile number not verifed");
+      throw boom.conflict("Mobile number not verifed", userDetail);
 
     }
     // Generate JWT token
