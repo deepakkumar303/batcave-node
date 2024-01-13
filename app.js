@@ -9,6 +9,7 @@ const logError = require("./system/middleware/log-error");
 const userRoutes = require("./api/users/route");
 const otpRoute = require("./api/otp/route");
 const userCar = require("./api/user-car/route");
+const sellingCar = require("./api/selling-car/route");
 const employeeRoute = require("./api/employee/route");
 const eventRoute = require("./api/event/route");
 const eventPurchaseRoute = require("./api/purchased-event/route");
@@ -112,6 +113,7 @@ app.use("/api/user-car", userCar);
 app.use("/api/employee", employeeRoute);
 app.use("/api/event", eventRoute);
 app.use("/api/event-purchase", eventPurchaseRoute);
+app.use("/api/selling-car", sellingCar);
 
 app.use((req, res, next) => {
   // throw boom.notFound("Endpoint Not Found");
