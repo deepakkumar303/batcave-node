@@ -1,311 +1,311 @@
 const { Schema, mongoose } = require("mongoose");
 
-const sellingCarSchema = new Schema(
-  {
-    _id: {
-      type: Schema.ObjectId,
-      auto: true,
-    },
-    car_summary: {
-      car_image: {
-        exterior_image: [
-          {
-            actual_name: {
-              type: String,
-            },
-            internal_name: {
-              type: String,
-            },
-          },
-        ],
-        interior_image: [
-          {
-            actual_name: {
-              type: String,
-            },
-            internal_name: {
-              type: String,
-            },
-          },
-        ],
-      },
-      car_name: { type: String },
-      price: { type: Number },
-      reg_year: { type: Number },
-      fuel_type: { type: String },
-      kms: { type: Number },
-      reg_state: { type: String },
-    },
-    overview: {
-      vin: { type: String },
-      make: { type: String },
-      model: { type: String },
-      exterior_colour: { type: String },
-      engine: { type: String },
-      transmission: { type: String },
-      ownership: { type: String },
-      peak_torque: { type: String },
-      peak_power: { type: String },
-      doors: { type: Number },
-      drive: { type: Number },
-      seating_capacity: { type: Number },
-      manufacturing_year: { type: Number },
-    },
-    engine_and_transmission: {
-      engine_displacement: { type: String },
-      power_figure: { type: String },
-      torque_figure: { type: String },
-      drivetrain: { type: String },
-      transmission: { type: String },
-    },
-    hybrid_system: {
-      e_motor_type_size: { type: String },
-      power_figure: { type: String },
-      torque_figure: { type: String },
-      combined_power_torque: { type: String },
-    },
-    performance_efficiency: {
-      eco_start_stop_system: { type: String },
-      driving_modes: { type: String },
-      terrain_response_mode: { type: String },
-      active_aerodynamics: { type: String },
-      exhaust_system_type: { type: String },
-      rear_axle_steering: { type: String },
-      acceleration: { type: String },
-      top_speed: { type: Number },
-      fuel_type: { type: String },
-      fuel_consumption: { type: Number },
-      emission_std: { type: String },
-    },
-    exterior_equipment: {
-      head_lamps: { type: String },
-      head_lamp_washer: { type: String },
-      drls: { type: String },
-      fog_lamps: { type: String },
-      cornering_lamps: { type: String },
-      follow_me_home_lamps: { type: String },
-      rain_sensing_wipers: { type: String },
-      orvm_electrically_adjustable_retractable: { type: String },
-      puddle_lamps: { type: String },
-      heat_protecting_glazing_windows: { type: String },
-      frameless_doors: { type: String },
-      soft_close_doors: { type: String },
-      central_locking: { type: String },
-      integrated_roof_rails: { type: String },
-      glass_sunroof: { type: String },
-      tail_lamps: { type: String },
-      third_brake_light: { type: String },
-      rear_wipers: { type: String },
-      defogger: { type: String },
-      power_boot_lid_opening: { type: String },
-      side_foot_step: { type: String },
-      rear_diffuser: { type: String },
-      rear_spoiler: { type: String },
-      exhaust_tips: { type: String },
-      convertible_roof: { type: String },
-      easy_access_boot_opener: { type: String },
-      digital_display_key: { type: String },
-      sports_assisted_key_band: { type: String },
-    },
-    interior_equipment: {
-      gear_knob: { type: String },
-      side_sill_moulding: { type: String },
-      keyless_start_stop: { type: String },
-      climate_control_system: { type: String },
-      heater: { type: String },
-      vanity_mirror: { type: String },
-      cabin_lamps: { type: String },
-      analog_clock: { type: String },
-      front_armrest: { type: String },
-      cupholders: { type: String },
-      cool_glove_box: { type: String },
-      rear_armrest: { type: String },
-      rear_refrigerator: { type: String },
-      smokers_package: { type: String },
-      in_car_wifi: { type: String },
-      ambient_lighting: { type: String },
-      wireless_charging: { type: String },
-      power_socket: { type: String },
-      usb_aux: { type: String },
-      auto_dimming_irvm: { type: String },
-      auto_dimming_orvm: { type: String },
-      power_windows: { type: String },
-      rear_windows_blind: { type: String },
-      rear_windshield_blind: { type: String },
-      boot_lid_opener: { type: String },
-      child_safety_lock: { type: String },
-      steering_wheel: { type: String },
-      steering_wheels_equipment: { type: String },
-      heated_steering_wheel: { type: String },
-      steering_wheel_adjustment: { type: String },
-      paddle_shifters: { type: String },
-      heads_up_display: { type: String },
-      electric_handbrake: { type: String },
-      instrument_cluster: { type: String },
-      speedometer: { type: String },
-      tachometer: { type: String },
-      fuel_gauge: { type: String },
-      engine_tem_gauge: { type: String },
-      mid: { type: String },
-      digital_speed: { type: String },
-      gear_position_indicator: { type: String },
-      gear_shifting_indicator: { type: String },
-      electric_handbrake: { type: String },
-      instrument_cluster: { type: String },
-      trip_meter: { type: String },
-      average_speed: { type: String },
-      average_fuel_consumption: { type: String },
-      realtime_fuel_consumption: { type: String },
-      fuel_range: { type: String },
-      low_fuel_warning: { type: String },
-      door_ajar_warning: { type: String },
-      glass_roof: { type: String },
-      emergency_spare_wheel: { type: String },
-    },
-    suspension_brakes_wheels_tyres: {
-      front_suspension: { type: String },
-      rear_suspension: { type: String },
-      front_brakes: { type: String },
-      rear_brakes: { type: String },
-      exhaust_system_type: { type: String },
-      front_wheels_tyres: { type: String },
-    },
-    dimensions_weight_storage_capacity: {
-      length: { type: Number },
-      width: { type: Number },
-      height: { type: Number },
-      wheelbase: { type: Number },
-      front_track: { type: Number },
-      rear_track: { type: Number },
-      ground_clearance: { type: String },
-      doors: { type: String },
-      seating_capacity: { type: String },
-      rows: { type: String },
-      kerb_weight: { type: Number },
-      bootspace: { type: Number },
-      fuel_capacity: { type: Number },
-    },
-    entertainment_rear: {
-      screens: { type: Number },
-      input_ports: { type: String },
-      other_equipments: { type: String },
-    },
-    seats_upholstery: {
-      front_seats: { type: String },
-      comfort_driver_seat: { type: String },
-      comfort_co_driver_seat: { type: String },
-      electric_lumbar_support_driver_seat: { type: String },
-      electric_lumbar_support_co_driver_seat: { type: String },
-      powered_height_adjustment_driver_seat: { type: String },
-      powered_height_adjustment_co_driver_seat: { type: String },
-      powered_underthigh_extension_driver_seat: { type: String },
-      powered_underthigh_extension_co_driver_seat: { type: String },
-      powered_headrest_driver_seat: { type: String },
-      powered_headrest_co_driver_seat: { type: String },
-      ventilated_front_seats: { type: String },
-      heated_front_seats: { type: String },
-      front_seat_massage: { type: String },
-      rear_seats: { type: String },
-      comfort_seats: { type: String },
-      electric_lumbar_support: { type: String },
-      powered_side_bolsters: { type: String },
-      powered_underthigh_extension: { type: String },
-      powered_headrest: { type: String },
-      ventilated_seats: { type: String },
-      heated_seats: { type: String },
-      seat_massage: { type: String },
-      executive_lounge_seating: { type: String },
-      gentlemen_function: { type: String },
-      interior_upholstery: { type: String },
-      headliner: { type: String },
-      seat_belt: { type: String },
-      second_row: { type: String },
-      third_row: { type: String },
-    },
-    safety_equipments: {
-      airbags: { type: Number },
-      abs: { type: String },
-      ebd: { type: String },
-      ba: { type: String },
-      esp: { type: String },
-      tc: { type: String },
-      tmpts: { type: String },
-      hill_hold_assist: { type: String },
-      blind_spot_assist: { type: String },
-      lane_keep_assist: { type: String },
-      seat_belt_warning: { type: String },
-      cruise_control: { type: String },
-      limited_slip_differential: { type: String },
-      parking_sensors: { type: String },
-      reverse_camera: { type: String },
-      _360_aerial_view_panoramic_view: { type: String },
-      parking_assistance: { type: String },
-      remote_parking: { type: String },
-      remote_central_locking: { type: String },
-      regenerative_braking: { type: String },
-      seat_belt_pretensioners: { type: String },
-      night_vision: { type: String },
-      cornering_brake_control: { type: String },
-      electric_parking_brake: { type: String },
-      vehicle_immobiliser: { type: String },
-      isofix_child_seat_mounting: { type: String },
-      speed_sensing_door_locks: { type: String },
-      emergency_rear_brake_light: { type: String },
-      chassis_construction: { type: String },
-      body_construction: { type: String },
-      dual_popup_roll_bars_in_convertibles: { type: String },
-      popup_hood_during_frontal_collision: { type: String },
-      other_safety_equipments: { type: String },
-    },
-    entertainment_front: {
-      hd_colour_display: { type: String },
-      in_built_hard_drive: { type: String },
-      cd_dvd_player: { type: String },
-      am_fm_radio: { type: String },
-      bluetooth_connectivity: { type: String },
-      music_system_power_output: { type: String },
-      no_of_speakers: { type: Number },
-      apple_carplay: { type: String },
-      android_auto: { type: String },
-      gps_navigation: { type: String },
-      in_built_convenience_apps: { type: String },
-      enhanced_voice_control: { type: String },
-      gesture_control: { type: String },
-      touchpad_rotary_controller: { type: String },
-      other_equipments: { type: String },
-    },
-    warranty_service_package: {
-      warranty: { type: String },
-      service_package_with_details: { type: String },
-    },
-    exterior_colours: {
-      exterior_colours: { type: String },
-    },
-    status: { type: String },
-    user_id: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-  },
-  {
-    timestamps: true,
-  }
-);
+// const sellingCarSchema = new Schema(
+//   {
+//     _id: {
+//       type: Schema.ObjectId,
+//       auto: true,
+//     },
+//     car_summary: {
+//       car_image: {
+//         exterior_image: [
+//           {
+//             actual_name: {
+//               type: String,
+//             },
+//             internal_name: {
+//               type: String,
+//             },
+//           },
+//         ],
+//         interior_image: [
+//           {
+//             actual_name: {
+//               type: String,
+//             },
+//             internal_name: {
+//               type: String,
+//             },
+//           },
+//         ],
+//       },
+//       car_name: { type: String },
+//       price: { type: Number },
+//       reg_year: { type: Number },
+//       fuel_type: { type: String },
+//       kms: { type: Number },
+//       reg_state: { type: String },
+//     },
+//     overview: {
+//       vin: { type: String },
+//       make: { type: String },
+//       model: { type: String },
+//       exterior_colour: { type: String },
+//       engine: { type: String },
+//       transmission: { type: String },
+//       ownership: { type: String },
+//       peak_torque: { type: String },
+//       peak_power: { type: String },
+//       doors: { type: Number },
+//       drive: { type: Number },
+//       seating_capacity: { type: Number },
+//       manufacturing_year: { type: Number },
+//     },
+//     engine_and_transmission: {
+//       engine_displacement: { type: String },
+//       power_figure: { type: String },
+//       torque_figure: { type: String },
+//       drivetrain: { type: String },
+//       transmission: { type: String },
+//     },
+//     hybrid_system: {
+//       e_motor_type_size: { type: String },
+//       power_figure: { type: String },
+//       torque_figure: { type: String },
+//       combined_power_torque: { type: String },
+//     },
+//     performance_efficiency: {
+//       eco_start_stop_system: { type: String },
+//       driving_modes: { type: String },
+//       terrain_response_mode: { type: String },
+//       active_aerodynamics: { type: String },
+//       exhaust_system_type: { type: String },
+//       rear_axle_steering: { type: String },
+//       acceleration: { type: String },
+//       top_speed: { type: Number },
+//       fuel_type: { type: String },
+//       fuel_consumption: { type: Number },
+//       emission_std: { type: String },
+//     },
+//     exterior_equipment: {
+//       head_lamps: { type: String },
+//       head_lamp_washer: { type: String },
+//       drls: { type: String },
+//       fog_lamps: { type: String },
+//       cornering_lamps: { type: String },
+//       follow_me_home_lamps: { type: String },
+//       rain_sensing_wipers: { type: String },
+//       orvm_electrically_adjustable_retractable: { type: String },
+//       puddle_lamps: { type: String },
+//       heat_protecting_glazing_windows: { type: String },
+//       frameless_doors: { type: String },
+//       soft_close_doors: { type: String },
+//       central_locking: { type: String },
+//       integrated_roof_rails: { type: String },
+//       glass_sunroof: { type: String },
+//       tail_lamps: { type: String },
+//       third_brake_light: { type: String },
+//       rear_wipers: { type: String },
+//       defogger: { type: String },
+//       power_boot_lid_opening: { type: String },
+//       side_foot_step: { type: String },
+//       rear_diffuser: { type: String },
+//       rear_spoiler: { type: String },
+//       exhaust_tips: { type: String },
+//       convertible_roof: { type: String },
+//       easy_access_boot_opener: { type: String },
+//       digital_display_key: { type: String },
+//       sports_assisted_key_band: { type: String },
+//     },
+//     interior_equipment: {
+//       gear_knob: { type: String },
+//       side_sill_moulding: { type: String },
+//       keyless_start_stop: { type: String },
+//       climate_control_system: { type: String },
+//       heater: { type: String },
+//       vanity_mirror: { type: String },
+//       cabin_lamps: { type: String },
+//       analog_clock: { type: String },
+//       front_armrest: { type: String },
+//       cupholders: { type: String },
+//       cool_glove_box: { type: String },
+//       rear_armrest: { type: String },
+//       rear_refrigerator: { type: String },
+//       smokers_package: { type: String },
+//       in_car_wifi: { type: String },
+//       ambient_lighting: { type: String },
+//       wireless_charging: { type: String },
+//       power_socket: { type: String },
+//       usb_aux: { type: String },
+//       auto_dimming_irvm: { type: String },
+//       auto_dimming_orvm: { type: String },
+//       power_windows: { type: String },
+//       rear_windows_blind: { type: String },
+//       rear_windshield_blind: { type: String },
+//       boot_lid_opener: { type: String },
+//       child_safety_lock: { type: String },
+//       steering_wheel: { type: String },
+//       steering_wheels_equipment: { type: String },
+//       heated_steering_wheel: { type: String },
+//       steering_wheel_adjustment: { type: String },
+//       paddle_shifters: { type: String },
+//       heads_up_display: { type: String },
+//       electric_handbrake: { type: String },
+//       instrument_cluster: { type: String },
+//       speedometer: { type: String },
+//       tachometer: { type: String },
+//       fuel_gauge: { type: String },
+//       engine_tem_gauge: { type: String },
+//       mid: { type: String },
+//       digital_speed: { type: String },
+//       gear_position_indicator: { type: String },
+//       gear_shifting_indicator: { type: String },
+//       electric_handbrake: { type: String },
+//       instrument_cluster: { type: String },
+//       trip_meter: { type: String },
+//       average_speed: { type: String },
+//       average_fuel_consumption: { type: String },
+//       realtime_fuel_consumption: { type: String },
+//       fuel_range: { type: String },
+//       low_fuel_warning: { type: String },
+//       door_ajar_warning: { type: String },
+//       glass_roof: { type: String },
+//       emergency_spare_wheel: { type: String },
+//     },
+//     suspension_brakes_wheels_tyres: {
+//       front_suspension: { type: String },
+//       rear_suspension: { type: String },
+//       front_brakes: { type: String },
+//       rear_brakes: { type: String },
+//       exhaust_system_type: { type: String },
+//       front_wheels_tyres: { type: String },
+//     },
+//     dimensions_weight_storage_capacity: {
+//       length: { type: Number },
+//       width: { type: Number },
+//       height: { type: Number },
+//       wheelbase: { type: Number },
+//       front_track: { type: Number },
+//       rear_track: { type: Number },
+//       ground_clearance: { type: String },
+//       doors: { type: String },
+//       seating_capacity: { type: String },
+//       rows: { type: String },
+//       kerb_weight: { type: Number },
+//       bootspace: { type: Number },
+//       fuel_capacity: { type: Number },
+//     },
+//     entertainment_rear: {
+//       screens: { type: Number },
+//       input_ports: { type: String },
+//       other_equipments: { type: String },
+//     },
+//     seats_upholstery: {
+//       front_seats: { type: String },
+//       comfort_driver_seat: { type: String },
+//       comfort_co_driver_seat: { type: String },
+//       electric_lumbar_support_driver_seat: { type: String },
+//       electric_lumbar_support_co_driver_seat: { type: String },
+//       powered_height_adjustment_driver_seat: { type: String },
+//       powered_height_adjustment_co_driver_seat: { type: String },
+//       powered_underthigh_extension_driver_seat: { type: String },
+//       powered_underthigh_extension_co_driver_seat: { type: String },
+//       powered_headrest_driver_seat: { type: String },
+//       powered_headrest_co_driver_seat: { type: String },
+//       ventilated_front_seats: { type: String },
+//       heated_front_seats: { type: String },
+//       front_seat_massage: { type: String },
+//       rear_seats: { type: String },
+//       comfort_seats: { type: String },
+//       electric_lumbar_support: { type: String },
+//       powered_side_bolsters: { type: String },
+//       powered_underthigh_extension: { type: String },
+//       powered_headrest: { type: String },
+//       ventilated_seats: { type: String },
+//       heated_seats: { type: String },
+//       seat_massage: { type: String },
+//       executive_lounge_seating: { type: String },
+//       gentlemen_function: { type: String },
+//       interior_upholstery: { type: String },
+//       headliner: { type: String },
+//       seat_belt: { type: String },
+//       second_row: { type: String },
+//       third_row: { type: String },
+//     },
+//     safety_equipments: {
+//       airbags: { type: Number },
+//       abs: { type: String },
+//       ebd: { type: String },
+//       ba: { type: String },
+//       esp: { type: String },
+//       tc: { type: String },
+//       tmpts: { type: String },
+//       hill_hold_assist: { type: String },
+//       blind_spot_assist: { type: String },
+//       lane_keep_assist: { type: String },
+//       seat_belt_warning: { type: String },
+//       cruise_control: { type: String },
+//       limited_slip_differential: { type: String },
+//       parking_sensors: { type: String },
+//       reverse_camera: { type: String },
+//       _360_aerial_view_panoramic_view: { type: String },
+//       parking_assistance: { type: String },
+//       remote_parking: { type: String },
+//       remote_central_locking: { type: String },
+//       regenerative_braking: { type: String },
+//       seat_belt_pretensioners: { type: String },
+//       night_vision: { type: String },
+//       cornering_brake_control: { type: String },
+//       electric_parking_brake: { type: String },
+//       vehicle_immobiliser: { type: String },
+//       isofix_child_seat_mounting: { type: String },
+//       speed_sensing_door_locks: { type: String },
+//       emergency_rear_brake_light: { type: String },
+//       chassis_construction: { type: String },
+//       body_construction: { type: String },
+//       dual_popup_roll_bars_in_convertibles: { type: String },
+//       popup_hood_during_frontal_collision: { type: String },
+//       other_safety_equipments: { type: String },
+//     },
+//     entertainment_front: {
+//       hd_colour_display: { type: String },
+//       in_built_hard_drive: { type: String },
+//       cd_dvd_player: { type: String },
+//       am_fm_radio: { type: String },
+//       bluetooth_connectivity: { type: String },
+//       music_system_power_output: { type: String },
+//       no_of_speakers: { type: Number },
+//       apple_carplay: { type: String },
+//       android_auto: { type: String },
+//       gps_navigation: { type: String },
+//       in_built_convenience_apps: { type: String },
+//       enhanced_voice_control: { type: String },
+//       gesture_control: { type: String },
+//       touchpad_rotary_controller: { type: String },
+//       other_equipments: { type: String },
+//     },
+//     warranty_service_package: {
+//       warranty: { type: String },
+//       service_package_with_details: { type: String },
+//     },
+//     exterior_colours: {
+//       exterior_colours: { type: String },
+//     },
+//     status: { type: String },
+//     user_id: {
+//       type: Schema.Types.ObjectId,
+//       ref: "User",
+//     },
+//   },
+//   {
+//     timestamps: true,
+//   }
+// );
 
 // Interior Image Schema
-const interiorImageSchema = new mongoose.Schema({
+const interiorImageSchema = {
   actual_name: String,
   internal_name: String,
-});
+};
 
 // Car Image Schema
-const carImageSchema = new mongoose.Schema({
+const carImageSchema = {
   exterior_image: [interiorImageSchema],
   interior_image: [interiorImageSchema],
-});
+};
 
 // Car Summary Schema
-const carSummarySchema = new mongoose.Schema({
+const carSummarySchema = {
   car_image: carImageSchema,
   car_name: String,
   price: String,
@@ -313,10 +313,10 @@ const carSummarySchema = new mongoose.Schema({
   fuel_type: String,
   kms: String,
   reg_state: String,
-});
+};
 
 // Overview Schema
-const overviewSchema = new mongoose.Schema({
+const overviewSchema = {
   vin: String,
   make: String,
   model: String,
@@ -330,27 +330,27 @@ const overviewSchema = new mongoose.Schema({
   drive: String,
   seating_capacity: String,
   manufacturing_year: String,
-});
+};
 
 // Engine and Transmission Schema
-const engineAndTransmissionSchema = new mongoose.Schema({
+const engineAndTransmissionSchema = {
   engine_displacement: String,
   power_figure: String,
   torque_figure: String,
   drivetrain: String,
   transmission: String,
-});
+};
 
 // Hybrid System Schema
-const hybridSystemSchema = new mongoose.Schema({
+const hybridSystemSchema = {
   e_motor_type_size: String,
   power_figure: String,
   torque_figure: String,
   combined_power_torque: String,
-});
+};
 
 // Performance Efficiency Schema
-const performanceEfficiencySchema = new mongoose.Schema({
+const performanceEfficiencySchema = {
   eco_start_stop_system: String,
   driving_modes: String,
   terrain_response_mode: String,
@@ -362,10 +362,10 @@ const performanceEfficiencySchema = new mongoose.Schema({
   fuel_type: String,
   fuel_consumption: String,
   emission_std: String,
-});
+};
 
 // Exterior Equipment Schema
-const exteriorEquipmentSchema = new mongoose.Schema({
+const exteriorEquipmentSchema = {
   head_lamps: String,
   head_lamp_washer: String,
   drls: String,
@@ -394,10 +394,10 @@ const exteriorEquipmentSchema = new mongoose.Schema({
   easy_access_boot_opener: String,
   digital_display_key: String,
   sports_assisted_key_band: String,
-});
+};
 
 // Interior Equipment Schema
-const interiorEquipmentSchema = new mongoose.Schema({
+const interiorEquipmentSchema = {
   gear_knob: String,
   side_sill_moulding: String,
   keyless_start_stop: String,
@@ -448,20 +448,20 @@ const interiorEquipmentSchema = new mongoose.Schema({
   door_ajar_warning: String,
   glass_roof: String,
   emergency_spare_wheel: String,
-});
+};
 
 // Suspension Brakes Wheels Tyres Schema
-const suspensionBrakesWheelsTyresSchema = new mongoose.Schema({
+const suspensionBrakesWheelsTyresSchema = {
   front_suspension: String,
   rear_suspension: String,
   front_brakes: String,
   rear_brakes: String,
   exhaust_system_type: String,
   front_wheels_tyres: String,
-});
+};
 
 // Dimensions Weight Storage Capacity Schema
-const dimensionsWeightStorageCapacitySchema = new mongoose.Schema({
+const dimensionsWeightStorageCapacitySchema = {
   length: String,
   width: String,
   height: String,
@@ -475,17 +475,17 @@ const dimensionsWeightStorageCapacitySchema = new mongoose.Schema({
   kerb_weight: String,
   bootspace: String,
   fuel_capacity: String,
-});
+};
 
 // Entertainment Rear Schema
-const entertainmentRearSchema = new mongoose.Schema({
+const entertainmentRearSchema = {
   screens: String,
   input_ports: String,
   other_equipments: String,
-});
+};
 
 // Seats Upholstery Schema
-const seatsUpholsterySchema = new mongoose.Schema({
+const seatsUpholsterySchema = {
   front_seats: String,
   comfort_driver_seat: String,
   comfort_co_driver_seat: String,
@@ -516,10 +516,10 @@ const seatsUpholsterySchema = new mongoose.Schema({
   seat_belt: String,
   second_row: String,
   third_row: String,
-});
+};
 
 // Safety Equipments Schema
-const safetyEquipmentsSchema = new mongoose.Schema({
+const safetyEquipmentsSchema = {
   airbags: String,
   abs: String,
   ebd: String,
@@ -553,10 +553,10 @@ const safetyEquipmentsSchema = new mongoose.Schema({
   dual_popup_roll_bars_in_convertibles: String,
   popup_hood_during_frontal_collision: String,
   other_safety_equipments: String,
-});
+};
 
 // Entertainment Front Schema
-const entertainmentFrontSchema = new mongoose.Schema({
+const entertainmentFrontSchema = {
   hd_colour_display: String,
   in_built_hard_drive: String,
   cd_dvd_player: String,
@@ -572,22 +572,26 @@ const entertainmentFrontSchema = new mongoose.Schema({
   gesture_control: String,
   touchpad_rotary_controller: String,
   other_equipments: String,
-});
+};
 
 // Warranty Service Package Schema
-const warrantyServicePackageSchema = new mongoose.Schema({
+const warrantyServicePackageSchema = {
   warranty: String,
   service_package_with_details: String,
-});
+};
 
 // Exterior Colours Schema
-const exteriorColoursSchema = new mongoose.Schema({
+const exteriorColoursSchema = {
   exterior_colours: String,
-});
+};
 
 // Car Schema
 const carSchema = new mongoose.Schema(
   {
+    _id: {
+      type: Schema.ObjectId,
+      auto: true,
+    },
     car_summary: carSummarySchema,
     overview: overviewSchema,
     engine_and_transmission: engineAndTransmissionSchema,
@@ -612,10 +616,6 @@ const carSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const SellingCarIndex = mongoose.model(
-  "SellingCar",
-  carSchema,
-  "sellingCar"
-);
+const SellingCarIndex = mongoose.model("SellingCar", carSchema, "sellingCar");
 
 module.exports = SellingCarIndex;
