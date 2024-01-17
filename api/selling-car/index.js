@@ -285,16 +285,336 @@ const sellingCarSchema = new Schema(
     user_id: {
       type: Schema.Types.ObjectId,
       ref: "User",
-    }
+    },
   },
   {
     timestamps: true,
   }
 );
 
+// Interior Image Schema
+const interiorImageSchema = new mongoose.Schema({
+  actual_name: String,
+  internal_name: String,
+});
+
+// Car Image Schema
+const carImageSchema = new mongoose.Schema({
+  exterior_image: [interiorImageSchema],
+  interior_image: [interiorImageSchema],
+});
+
+// Car Summary Schema
+const carSummarySchema = new mongoose.Schema({
+  car_image: carImageSchema,
+  car_name: String,
+  price: String,
+  reg_year: String,
+  fuel_type: String,
+  kms: String,
+  reg_state: String,
+});
+
+// Overview Schema
+const overviewSchema = new mongoose.Schema({
+  vin: String,
+  make: String,
+  model: String,
+  exterior_colour: String,
+  engine: String,
+  transmission: String,
+  ownership: String,
+  peak_torque: String,
+  peak_power: String,
+  doors: String,
+  drive: String,
+  seating_capacity: String,
+  manufacturing_year: String,
+});
+
+// Engine and Transmission Schema
+const engineAndTransmissionSchema = new mongoose.Schema({
+  engine_displacement: String,
+  power_figure: String,
+  torque_figure: String,
+  drivetrain: String,
+  transmission: String,
+});
+
+// Hybrid System Schema
+const hybridSystemSchema = new mongoose.Schema({
+  e_motor_type_size: String,
+  power_figure: String,
+  torque_figure: String,
+  combined_power_torque: String,
+});
+
+// Performance Efficiency Schema
+const performanceEfficiencySchema = new mongoose.Schema({
+  eco_start_stop_system: String,
+  driving_modes: String,
+  terrain_response_mode: String,
+  active_aerodynamics: String,
+  exhaust_system_type: String,
+  rear_axle_steering: String,
+  acceleration: String,
+  top_speed: String,
+  fuel_type: String,
+  fuel_consumption: String,
+  emission_std: String,
+});
+
+// Exterior Equipment Schema
+const exteriorEquipmentSchema = new mongoose.Schema({
+  head_lamps: String,
+  head_lamp_washer: String,
+  drls: String,
+  fog_lamps: String,
+  cornering_lamps: String,
+  follow_me_home_lamps: String,
+  rain_sensing_wipers: String,
+  orvm_electrically_adjustable_retractable: String,
+  puddle_lamps: String,
+  heat_protecting_glazing_windows: String,
+  frameless_doors: String,
+  soft_close_doors: String,
+  central_locking: String,
+  integrated_roof_rails: String,
+  glass_sunroof: String,
+  tail_lamps: String,
+  third_brake_light: String,
+  rear_wipers: String,
+  defogger: String,
+  power_boot_lid_opening: String,
+  side_foot_step: String,
+  rear_diffuser: String,
+  rear_spoiler: String,
+  exhaust_tips: String,
+  convertible_roof: String,
+  easy_access_boot_opener: String,
+  digital_display_key: String,
+  sports_assisted_key_band: String,
+});
+
+// Interior Equipment Schema
+const interiorEquipmentSchema = new mongoose.Schema({
+  gear_knob: String,
+  side_sill_moulding: String,
+  keyless_start_stop: String,
+  climate_control_system: String,
+  heater: String,
+  vanity_mirror: String,
+  cabin_lamps: String,
+  analog_clock: String,
+  front_armrest: String,
+  cupholders: String,
+  cool_glove_box: String,
+  rear_armrest: String,
+  rear_refrigerator: String,
+  smokers_package: String,
+  incar_wifi: String,
+  ambient_lighting: String,
+  wireless_charging: String,
+  power_socket: String,
+  usb_aux: String,
+  auto_dimming_irvm: String,
+  auto_dimming_orvm: String,
+  power_windows: String,
+  rear_windows_blind: String,
+  rear_windshield_blind: String,
+  boot_lid_opener: String,
+  child_safety_lock: String,
+  steering_wheel: String,
+  steering_wheels_equipment: String,
+  steering_wheel_adjustment: String,
+  paddle_shifters: String,
+  heads_up_display: String,
+  electric_handbrake: String,
+  instrument_cluster: String,
+  speedometer: String,
+  tachometer: String,
+  fuel_gauge: String,
+  engine_temp_gauge: String,
+  mid: String,
+  digital_speed: String,
+  gear_position_indicator: String,
+  gear_shifting_indicator: String,
+  trip_meter: String,
+  average_speed: String,
+  average_fuel_consumption: String,
+  realtime_fuel_consumption: String,
+  fuel_range: String,
+  low_fuel_warning: String,
+  door_ajar_warning: String,
+  glass_roof: String,
+  emergency_spare_wheel: String,
+});
+
+// Suspension Brakes Wheels Tyres Schema
+const suspensionBrakesWheelsTyresSchema = new mongoose.Schema({
+  front_suspension: String,
+  rear_suspension: String,
+  front_brakes: String,
+  rear_brakes: String,
+  exhaust_system_type: String,
+  front_wheels_tyres: String,
+});
+
+// Dimensions Weight Storage Capacity Schema
+const dimensionsWeightStorageCapacitySchema = new mongoose.Schema({
+  length: String,
+  width: String,
+  height: String,
+  wheelbase: String,
+  front_track: String,
+  rear_track: String,
+  ground_clearance: String,
+  doors: String,
+  seating_capacity: String,
+  rows: String,
+  kerb_weight: String,
+  bootspace: String,
+  fuel_capacity: String,
+});
+
+// Entertainment Rear Schema
+const entertainmentRearSchema = new mongoose.Schema({
+  screens: String,
+  input_ports: String,
+  other_equipments: String,
+});
+
+// Seats Upholstery Schema
+const seatsUpholsterySchema = new mongoose.Schema({
+  front_seats: String,
+  comfort_driver_seat: String,
+  comfort_co_driver_seat: String,
+  electric_lumbar_support_driver_seat: String,
+  electric_lumbar_support_co_driver_seat: String,
+  powered_height_adjustment_driver_seat: String,
+  powered_height_adjustment_co_driver_seat: String,
+  powered_underthigh_extension_driver_seat: String,
+  powered_underthigh_extension_co_driver_seat: String,
+  powered_headrest_driver_seat: String,
+  powered_headrest_co_driver_seat: String,
+  ventilated_front_seats: String,
+  heated_front_seats: String,
+  front_seat_massage: String,
+  rear_seats: String,
+  comfort_seats: String,
+  electric_lumbar_support: String,
+  powered_side_bolsters: String,
+  powered_underthigh_extension: String,
+  powered_headrest: String,
+  ventilated_seats: String,
+  heated_seats: String,
+  seat_massage: String,
+  executive_lounge_seating: String,
+  gentlemen_function: String,
+  interior_upholstery: String,
+  headliner: String,
+  seat_belt: String,
+  second_row: String,
+  third_row: String,
+});
+
+// Safety Equipments Schema
+const safetyEquipmentsSchema = new mongoose.Schema({
+  airbags: String,
+  abs: String,
+  ebd: String,
+  ba: String,
+  esp: String,
+  tc: String,
+  tmpts: String,
+  hill_hold_assist: String,
+  blind_spot_assist: String,
+  lane_keep_assist: String,
+  seat_belt_warning: String,
+  cruise_control: String,
+  limited_slip_differential: String,
+  parking_sensors: String,
+  reverse_camera: String,
+  _360_aerial_view_panoramic_view: String,
+  parking_assistance: String,
+  remote_parking: String,
+  remote_central_locking: String,
+  regenerative_braking: String,
+  seat_belt_pretensioners: String,
+  night_vision: String,
+  cornering_brake_control: String,
+  electric_parking_brake: String,
+  vehicle_immobiliser: String,
+  isofix_child_seat_mounting: String,
+  speed_sensing_door_locks: String,
+  emergency_rear_brake_light: String,
+  chassis_construction: String,
+  body_construction: String,
+  dual_popup_roll_bars_in_convertibles: String,
+  popup_hood_during_frontal_collision: String,
+  other_safety_equipments: String,
+});
+
+// Entertainment Front Schema
+const entertainmentFrontSchema = new mongoose.Schema({
+  hd_colour_display: String,
+  in_built_hard_drive: String,
+  cd_dvd_player: String,
+  am_fm_radio: String,
+  bluetooth_connectivity: String,
+  music_system_power_output: String,
+  no_of_speakers: String,
+  apple_carplay: String,
+  android_auto: String,
+  gps_navigation: String,
+  in_built_convenience_apps: String,
+  enhanced_voice_control: String,
+  gesture_control: String,
+  touchpad_rotary_controller: String,
+  other_equipments: String,
+});
+
+// Warranty Service Package Schema
+const warrantyServicePackageSchema = new mongoose.Schema({
+  warranty: String,
+  service_package_with_details: String,
+});
+
+// Exterior Colours Schema
+const exteriorColoursSchema = new mongoose.Schema({
+  exterior_colours: String,
+});
+
+// Car Schema
+const carSchema = new mongoose.Schema(
+  {
+    car_summary: carSummarySchema,
+    overview: overviewSchema,
+    engine_and_transmission: engineAndTransmissionSchema,
+    hybrid_system: hybridSystemSchema,
+    performance_efficiency: performanceEfficiencySchema,
+    exterior_equipment: exteriorEquipmentSchema,
+    interior_equipment: interiorEquipmentSchema,
+    suspension_brakes_wheels_tyres: suspensionBrakesWheelsTyresSchema,
+    dimensions_weight_storage_capacity: dimensionsWeightStorageCapacitySchema,
+    entertainment_rear: entertainmentRearSchema,
+    seats_upholstery: seatsUpholsterySchema,
+    safety_equipments: safetyEquipmentsSchema,
+    entertainment_front: entertainmentFrontSchema,
+    warranty_service_package: warrantyServicePackageSchema,
+    exterior_colours: exteriorColoursSchema,
+    status: String,
+    user_id: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  },
+  { timestamps: true }
+);
+
 const SellingCarIndex = mongoose.model(
   "SellingCar",
-  sellingCarSchema,
+  carSchema,
   "sellingCar"
 );
 
