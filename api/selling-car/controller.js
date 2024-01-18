@@ -59,38 +59,50 @@ const getListAll = async (params) => {
     !utilsChecks.isNull(params.search_string)
   ) {
     matchCond2.$or = [];
-    // matchCond2.$or.push({
-    //   year: {
-    //     $regex: params.search_string,
-    //     $options: "i",
-    //   },
-    // });
-    // matchCond2.$or.push({
-    //   modal: {
-    //     $regex: params.search_string,
-    //     $options: "i",
-    //   },
-    // });
-    // matchCond2.$or.push({
-    //   color: {
-    //     $elemMatch: {
-    //       $regex: params.search_string,
-    //       $options: "i",
-    //     },
-    //   },
-    // });
-    // matchCond2.$or.push({
-    //   vechile_number: {
-    //     $regex: params.search_string,
-    //     $options: "i",
-    //   },
-    // });
-    // matchCond2.$or.push({
-    //     'contact_bidders.bidder_name': {
-    //         $regex: params.search_string,
-    //         $options: 'i',
-    //     },
-    // });
+    matchCond2.$or.push({
+      car_reg_no: {
+        $regex: params.search_string,
+        $options: "i",
+      },
+    });
+    matchCond2.$or.push({
+      post_date: {
+        $regex: params.search_string,
+        $options: "i",
+      },
+    });
+    matchCond2.$or.push({
+      car_name: {
+        $elemMatch: {
+          $regex: params.search_string,
+          $options: "i",
+        },
+      },
+    });
+    matchCond2.$or.push({
+      reg_state: {
+        $regex: params.search_string,
+        $options: "i",
+      },
+    });
+    matchCond2.$or.push({
+      reg_year: {
+        $regex: params.search_string,
+        $options: "i",
+      },
+    });
+    matchCond2.$or.push({
+      model: {
+        $regex: params.search_string,
+        $options: "i",
+      },
+    });
+    matchCond2.$or.push({
+      price: {
+        $regex: params.search_string,
+        $options: "i",
+      },
+    });
   }
   if (
     params.status &&
@@ -222,5 +234,5 @@ module.exports = {
   getUserCarDetail,
   // updateUserCar,
   // userCarDelete
-  sellingCarDelete
+  sellingCarDelete,
 };

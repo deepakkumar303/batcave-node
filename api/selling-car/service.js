@@ -18,10 +18,7 @@ const list = async (params) => {
   const result = await SellingCarIndex.aggregate([
     {
       $match: params.matchCondition1,
-    },
-    {
-      $match: params.matchCondition2,
-    },
+    },   
     {
       $lookup: {
         from: "users",
@@ -48,6 +45,21 @@ const list = async (params) => {
         ],
         as: "user_detail",
       },
+    },
+    {
+      $project: {
+        car_reg_no: '$overview.vin',
+        post_date: '$createdAt',
+        car_name: '$car_summary.car_name',
+        reg_state: '$car_summary.reg_state',
+        reg_year: '$car_summary.reg_year',
+        model: '$overview.model',
+        price: '$car_summary.price',
+        status: '$status'
+      }
+    },
+    {
+      $match: params.matchCondition2,
     },
     {
       $sort: params.sortCondition,
