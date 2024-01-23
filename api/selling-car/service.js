@@ -55,7 +55,11 @@ const list = async (params) => {
         reg_year: '$car_summary.reg_year',
         model: '$overview.model',
         price: '$car_summary.price',
-        status: '$status'
+        status: '$status',
+        car_image: '$car_summary.car_image',
+        kms: '$car_summary.kms',
+        fuel_type: '$car_summary.fuel_type',
+        user_detail: '$user_detail'
       }
     },
     {
@@ -79,8 +83,47 @@ const list = async (params) => {
 };
 
 const fetchCarDetails = async (params) => {
-  const UserCarDetail = await SellingCarIndex.find({ _id: params.car_id });
-  return UserCarDetail;
+  const result = await SellingCarIndex.aggregate([  
+    {
+      $match: {
+        $expr: {
+          $and: [
+            {
+              $eq: ["$_id", params.car_id],
+            },
+          ],
+        },
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        let: {
+          userId: "$user_id",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  {
+                    $eq: ["$_id", "$$userId"],
+                  },
+                ],
+              },
+            },
+          },
+          {
+            $project: {
+              password: 0,
+            },
+          },
+        ],
+        as: "user_detail",
+      },
+    },
+  ]);
+  return result;
 };
 
 module.exports = {

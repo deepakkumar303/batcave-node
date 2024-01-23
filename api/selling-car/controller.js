@@ -153,6 +153,7 @@ const getListAll = async (params) => {
 };
 
 const getUserCarDetail = async (params) => {
+  params.car_id = new ObjectId(params.car_id.toString())
   const getList = await service.fetchCarDetails(params);
   if (!utilsChecks.isArray(getList) || utilsChecks.isEmptyArray(getList)) {
     throw boom.notFound("No Data Found");
