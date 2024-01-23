@@ -17,8 +17,16 @@ const update = async (params, body) => {
 const list = async (params) => {
   const result = await SellingCarIndex.aggregate([
     {
-      $match: params.matchCondition1,
-    },   
+      $match: {
+        $expr: {
+          $and: [
+            {
+              $in: ["$status", params.status],
+            },
+          ],
+        },
+      },
+    },
     {
       $lookup: {
         from: "users",
@@ -48,19 +56,19 @@ const list = async (params) => {
     },
     {
       $project: {
-        car_reg_no: '$overview.vin',
-        post_date: '$createdAt',
-        car_name: '$car_summary.car_name',
-        reg_state: '$car_summary.reg_state',
-        reg_year: '$car_summary.reg_year',
-        model: '$overview.model',
-        price: '$car_summary.price',
-        status: '$status',
-        car_image: '$car_summary.car_image',
-        kms: '$car_summary.kms',
-        fuel_type: '$car_summary.fuel_type',
-        user_detail: '$user_detail'
-      }
+        car_reg_no: "$overview.vin",
+        post_date: "$createdAt",
+        car_name: "$car_summary.car_name",
+        reg_state: "$car_summary.reg_state",
+        reg_year: "$car_summary.reg_year",
+        model: "$overview.model",
+        price: "$car_summary.price",
+        status: "$status",
+        car_image: "$car_summary.car_image",
+        kms: "$car_summary.kms",
+        fuel_type: "$car_summary.fuel_type",
+        user_detail: "$user_detail",
+      },
     },
     {
       $match: params.matchCondition2,
@@ -83,7 +91,7 @@ const list = async (params) => {
 };
 
 const fetchCarDetails = async (params) => {
-  const result = await SellingCarIndex.aggregate([  
+  const result = await SellingCarIndex.aggregate([
     {
       $match: {
         $expr: {

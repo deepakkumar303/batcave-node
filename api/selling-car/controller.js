@@ -47,7 +47,6 @@ const updateUserCar = async (params, body) => {
 };
 
 const getListAll = async (params) => {
-  const matchCond1 = {};
   const matchCond2 = {};
   const sortCond = {};
   const paginatedCond = [];
@@ -104,14 +103,10 @@ const getListAll = async (params) => {
       },
     });
   }
-  if (
-    params.status &&
-    !utilsChecks.isEmptyString(params.status) &&
-    !utilsChecks.isNull(params.status)
-  ) {
-    matchCond1.status = params.status;
+  if(params.role === 'user'){
+    params.status = ["ready_for_sell", "reserved"]
   } else {
-    matchCond1.status = { $ne: null };
+    params.status = params.status ? [params.status] : ["draft", "submitted", "ready_for_sell", "reserved", "soldout"]
   }
   const { sortBy } = params;
   const { sortDir } = params;
@@ -133,8 +128,8 @@ const getListAll = async (params) => {
     limitCond.$limit = params.limit;
     paginatedCond.push(limitCond);
   }
+  
   const facetParams = {
-    matchCondition1: matchCond1,
     matchCondition2: matchCond2,
     sortCondition: sortCond,
     paginatedCondition: paginatedCond,

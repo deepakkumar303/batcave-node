@@ -639,6 +639,7 @@ module.exports.getAllByParams = {
     sortDir: joi.string().allow(null, "").required(),
     limit: joi.number().required(),
     offset: joi.number().required(),
+    role: joi.string().valid("user", "admin").required(),
   },
 };
 
