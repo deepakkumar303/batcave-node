@@ -14,6 +14,15 @@ const update = async (params, body) => {
   return newUserCar;
 };
 
+const removeUserId = async (params, body) => {
+  const newUserCar = await SellingCarIndex.findOneAndUpdate(
+    { _id: params.car_id }, // Specify the criteria to match documents (empty {} matches all documents)
+    { $unset: { user_id: 1 } }, // Use $unset to remove the "object_id" field
+    { multi: true } // Update multiple documents that match the criteria
+ )
+  return newUserCar;
+};
+
 const list = async (params) => {
   const result = await SellingCarIndex.aggregate([
     {
@@ -139,4 +148,5 @@ module.exports = {
   list,
   fetchCarDetails,
   update,
+  removeUserId
 };

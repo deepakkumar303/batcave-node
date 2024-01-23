@@ -38,6 +38,9 @@ const sellingCarDelete = async (params) => {
 };
 
 const updateUserCar = async (params, body) => {
+  if(body.status === 'ready_for_sell'){
+    await service.removeUserId(params, body);
+  }
   const userCarDetail = await service.update(params, body);
   const result = {
     // detail: eventDetail,
