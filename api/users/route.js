@@ -19,7 +19,7 @@ router.post(
 router.put(
   "/update/:user_id",
   celebrate(schema.updateSchema, schema.options),
-  c(controller.updateEvent, (req, res, next) => [req.params, req.body])
+  c(controller.updateUser, (req, res, next) => [req.params, req.body])
 );
 
 router.post(
@@ -32,6 +32,18 @@ router.get(
   "/profile",
   authenticateMobileJWT,
   c(controller.getProfile, (req, res, next) => [req.user])
+);
+
+router.post(
+  "/forgot-password",
+  celebrate(schema.forgotPassword, schema.options),
+  c(controller.forgotPassword, (req, res, next) => [req.body])
+);
+
+router.post(
+  "/reset-password",
+  celebrate(schema.resetPassword, schema.options),
+  c(controller.resetPassword, (req, res, next) => [req.body])
 );
 
 // Multer Configuration

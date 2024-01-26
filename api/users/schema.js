@@ -45,6 +45,19 @@ module.exports.loginSchema = {
   }),
 };
 
+module.exports.forgotPassword = {
+  body: joi.object().keys({
+    mobile: joi.string().required(),
+  }),
+};
+
+module.exports.resetPassword = {
+  body: joi.object().keys({
+    mobile: joi.string().required(),
+    password: joi.string().required(),
+  }),
+};
+
 module.exports.upload = {
   body: joi.object({
     file: joi.object({

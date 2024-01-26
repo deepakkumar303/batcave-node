@@ -11,6 +11,8 @@ const controller = require('./controller');
 
 router.post('/verify', celebrate(schema.otpVerifySchema, schema.options), c(controller.verifyOtp, (req, res, next) => [req.body]));
 
+// router.post('/forgot-verify', celebrate(schema.otpVerifySchema, schema.options), c(controller.verifyOtp, (req, res, next) => [req.body]));
+
 router.post('/resend', celebrate(schema.otpResendSchema, schema.options), c(controller.resendOtp, (req, res, next) => [req.body]));
 
 module.exports = router;

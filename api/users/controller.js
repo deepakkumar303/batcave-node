@@ -43,7 +43,7 @@ const register = async (params) => {
   return result;
 };
 
-const updateEvent = async (params, body) => {
+const updateUser = async (params, body) => {
   const userDetail = await service.update(params, body);
   const result = {
     // detail: userDetail,
@@ -96,16 +96,45 @@ const login = async (params) => {
   } else {
     throw boom.conflict('Invalid password');
   }
+};
 
-  // const { password } = params;
-  // const hashedPassword = await bcrypt.hash(password, 10);
-  // params.password = hashedPassword;
-  // const createUser = await service.create(params);
-  // const result = {
-  //   detail: createUser,
-  //   message: "Please verify OTP",
-  // };
-  // return result;
+const resetPassword = async (body) => {
+  const userDetail = await User.find({
+    $or: [
+      { mobile: body.mobile },
+      { unique_number: body.mobile }
+    ]
+  } );
+  if (userDetail.length === 0) {
+    throw boom.conflict("User not found");
+  }
+  const { password } = body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+  body.password = hashedPassword;
+  await service.update({user_id: userDetail[0]._id}, {password: body.password});
+  const result = {
+    // detail: userDetail,
+    message: "Password Changed Successfully.",
+  };
+  return result;
+};
+
+const forgotPassword = async (params) => {
+  const userDetail = await User.find({
+    $or: [
+      { mobile: params.mobile },
+      { unique_number: params.mobile }
+    ]
+  } );
+  if (userDetail.length === 0) {
+    throw boom.conflict("User not found");
+  }
+  await resendOtp(userDetail[0]);
+  const result = {
+    detail: userDetail,
+    message: "Please verify OTP",
+  };
+  return result;
 };
 
 const s3 = new aws.S3({
@@ -170,5 +199,7 @@ module.exports = {
   uploadFile,
   deleteFile,
   getProfile,
-  updateEvent
+  updateUser,
+  forgotPassword,
+  resetPassword
 };
