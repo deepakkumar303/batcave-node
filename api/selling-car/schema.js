@@ -640,6 +640,8 @@ module.exports.getAllByParams = {
     limit: joi.number().required(),
     offset: joi.number().required(),
     role: joi.string().valid("user", "admin").required(),
+    from_price: joi.number().allow(null, "").optional(),
+    to_price: joi.number().allow(null, "").optional(),
   },
 };
 

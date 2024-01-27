@@ -17,12 +17,12 @@ const update = async (params, body) => {
 };
 
 const list = async (params) => {
-  const result = await EventIndex.aggregate([
-    {
-      $match: params.matchCondition1,
-    },
+  const result = await EventIndex.aggregate([    
     {
       $match: params.matchCondition2,
+    },
+    {
+      $match: params.matchCondition1,
     },
     {
       $sort: params.sortCondition,
@@ -44,10 +44,10 @@ const list = async (params) => {
 const listMobile = async (params) => {
   const result = await EventIndex.aggregate([
     {
-      $match: params.matchCondition1,
+      $match: params.matchCondition2,
     },
     {
-      $match: params.matchCondition2,
+      $match: params.matchCondition1,
     },
     {
       $match: {

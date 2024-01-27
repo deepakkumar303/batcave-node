@@ -11,7 +11,7 @@ const { ObjectId } = mongoose.Types;
 
 const addEvent = async (params) => {
   params.remaining_ticket_count = params.ticket_count;
-  const eventDetail = await service.create(params);  
+  const eventDetail = await service.create(params);
   const result = {
     detail: eventDetail,
     message: "Event added successfully.",
@@ -29,7 +29,8 @@ const updateEvent = async (params, body) => {
 };
 
 const getListAll = async (params) => {
-  const matchCond1 = {};
+  let currentDateTime = new Date();
+  let matchCond1 = {};
   const matchCond2 = {};
   const sortCond = {};
   const paginatedCond = [];
@@ -81,6 +82,28 @@ const getListAll = async (params) => {
   if (params.limit) {
     limitCond.$limit = params.limit;
     paginatedCond.push(limitCond);
+  }
+  matchCond1.$or = [];
+  if (params.event_status === "past") {
+    matchCond1.$or.push({
+      // Filter past events
+      to_date: { $lt: currentDateTime },
+    });
+  } else if (params.event_status === "live") {
+    matchCond1.$or.push({
+      // Filter live events
+      $and: [
+        { from_date: { $lte: currentDateTime } },
+        { to_date: { $gte: currentDateTime } },
+      ],
+    });
+  } else if (params.event_status === "future") {
+    matchCond1.$or.push({
+      // Filter future events
+      from_date: { $gt: currentDateTime },
+    });
+  } else {
+    matchCond1 = {};
   }
   const facetParams = {
     matchCondition1: matchCond1,
@@ -102,7 +125,8 @@ const getListAll = async (params) => {
 };
 
 const getListAllMobile = async (params) => {
-  const matchCond1 = {};
+  let currentDateTime = new Date();
+  let matchCond1 = {};
   const matchCond2 = {};
   const sortCond = {};
   const paginatedCond = [];
@@ -155,15 +179,38 @@ const getListAllMobile = async (params) => {
     limitCond.$limit = params.limit;
     paginatedCond.push(limitCond);
   }
-  const user_id = new ObjectId(params.user_id.toString())
+  const user_id = new ObjectId(params.user_id.toString());
 
+  matchCond1.$or = [];
+  if (params.event_status === "past") {
+    matchCond1.$or.push({
+      // Filter past events
+      to_date: { $lt: currentDateTime },
+    });
+  } else if (params.event_status === "live") {
+    matchCond1.$or.push({
+      // Filter live events
+      $and: [
+        { from_date: { $lte: currentDateTime } },
+        { to_date: { $gte: currentDateTime } },
+      ],
+    });
+  } else if (params.event_status === "future") {
+    matchCond1.$or.push({
+      // Filter future events
+      from_date: { $gt: currentDateTime },
+    });
+  } else {
+    matchCond1 = {};
+  }
   const facetParams = {
-    matchCondition1: matchCond1,
+    // matchCondition1: matchCond1,
     matchCondition2: matchCond2,
     sortCondition: sortCond,
     paginatedCondition: paginatedCond,
     search_string: params.search_string,
-    user_id: user_id
+    user_id: user_id,
+    matchCondition1: matchCond1
   };
   // return facetParams
   const getList = await service.listMobile(facetParams);
@@ -220,7 +267,9 @@ const eventReject = async (params) => {
 
 const eventDelete = async (params) => {
   // const EventDetail = await EventIndex.find({ _id: params.event_id });
-  const EventDetail = await EventIndex.findOneAndDelete({ _id: params.event_id });
+  const EventDetail = await EventIndex.findOneAndDelete({
+    _id: params.event_id,
+  });
   if (EventDetail.length === 0) {
     throw boom.conflict("No data found");
   }
@@ -240,7 +289,7 @@ const s3 = new aws.S3({
 });
 
 const uploadFile = async (params) => {
-  console.log('event-upload')
+  console.log("event-upload");
   const param = {
     Bucket: process.env.AWS_BUCKET,
     Key: `upload-event-doc/${Date.now()}-${params.originalname}`,
@@ -269,5 +318,5 @@ module.exports = {
   updateEvent,
   eventReject,
   eventDelete,
-  getListAllMobile
+  getListAllMobile,
 };

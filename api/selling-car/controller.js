@@ -50,6 +50,7 @@ const updateUserCar = async (params, body) => {
 };
 
 const getListAll = async (params) => {
+  let matchCond1 = {};
   const matchCond2 = {};
   const sortCond = {};
   const paginatedCond = [];
@@ -131,12 +132,26 @@ const getListAll = async (params) => {
     limitCond.$limit = params.limit;
     paginatedCond.push(limitCond);
   }
+
+  matchCond1.$or = [];
+  if (params.from_price && params.to_price) {
+    matchCond1.$or.push({
+      // from_date: { $gt: currentDateTime },
+      price: {
+        $gte: params.from_price, // specify the minimum price
+        $lte: params.to_price  // specify the maximum price
+      }
+    });
+  } else {
+    matchCond1 = {};
+  }
   
   const facetParams = {
     matchCondition2: matchCond2,
     sortCondition: sortCond,
     paginatedCondition: paginatedCond,
     status: params.status,
+    matchCondition1: matchCond1
   };
   // return facetParams
   const getList = await service.list(facetParams);

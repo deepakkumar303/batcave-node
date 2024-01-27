@@ -99,6 +99,7 @@ module.exports.getAllByParams = {
     sortDir: joi.string().allow(null, "").required(),
     limit: joi.number().required(),
     offset: joi.number().required(),
+    event_status: joi.string().allow(null, "").optional(),
   },
 };
 
@@ -110,6 +111,7 @@ module.exports.getAllByParamsByMobile = {
     limit: joi.number().required(),
     offset: joi.number().required(),
     user_id: joi.string().required(),
+    event_status: joi.string().allow(null, "").optional(),
   },
 };
 

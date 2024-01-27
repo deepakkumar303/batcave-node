@@ -37,6 +37,16 @@ const list = async (params) => {
       },
     },
     {
+      $addFields: {
+        price: {
+          $toInt: '$car_summary.price'
+        }
+      }
+    },
+    {
+      $match: params.matchCondition1,
+    },
+    {
       $lookup: {
         from: "users",
         let: {
