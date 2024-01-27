@@ -102,7 +102,7 @@ const resetPassword = async (body) => {
   const userDetail = await User.find({
     $or: [
       { mobile: body.mobile },
-      { unique_number: body.mobile }
+      { email: body.mobile }
     ]
   } );
   if (userDetail.length === 0) {
@@ -123,7 +123,7 @@ const forgotPassword = async (params) => {
   const userDetail = await User.find({
     $or: [
       { mobile: params.mobile },
-      { unique_number: params.mobile }
+      { email: params.mobile }
     ]
   } );
   if (userDetail.length === 0) {
