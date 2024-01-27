@@ -22,4 +22,11 @@ router.get(
   c(controller.getListAllByMobile, (req, res, next) => [req.query])
 );
 
+router.get(
+  "/list",
+  celebrate(schema.getAllByParamsByWeb, schema.options),
+  c(controller.getListAllByWeb, (req, res, next) => [req.query])
+);
+
+
 module.exports = router;

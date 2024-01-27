@@ -22,6 +22,9 @@ const pointRegistrySchema = new Schema(
       type: Number,
       // required: true,
     },
+    type: {
+      type: String,
+    },
   },
   {
     timestamps: true,

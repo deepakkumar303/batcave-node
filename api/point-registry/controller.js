@@ -32,6 +32,7 @@ const registerPointRegistryEvent = async (params) => {
   } else {
     params.credit_point = eventDetail[0].points_paid_member;
   }
+  params.type = 'credit';
   
   const eventPurchaseDetail = await service.create(params);
   const result = {
@@ -42,39 +43,38 @@ const registerPointRegistryEvent = async (params) => {
 };
 
 const getListAllByMobile = async (params) => {
-  const matchCond1 = {};
-  const matchCond2 = {};
+  // const matchCond2 = {};
   const sortCond = {};
   const paginatedCond = [];
   const limitCond = {};
   const skipCond = {};
-  if (
-    params.search_string &&
-    !utilsChecks.isEmptyString(params.search_string) &&
-    !utilsChecks.isNull(params.search_string)
-  ) {
-    matchCond2.$or = [];
-    matchCond2.$or.push({
-      name: {
-        $regex: params.search_string,
-        $options: "i",
-      },
-    });
-    matchCond2.$or.push({
-      contact_person: {
-        $regex: params.search_string,
-        $options: "i",
-      },
-    });
-    matchCond2.$or.push({
-      description: {
-        $elemMatch: {
-          $regex: params.search_string,
-          $options: "i",
-        },
-      },
-    });
-  }
+  // if (
+  //   params.search_string &&
+  //   !utilsChecks.isEmptyString(params.search_string) &&
+  //   !utilsChecks.isNull(params.search_string)
+  // ) {
+  //   matchCond2.$or = [];
+  //   matchCond2.$or.push({
+  //     name: {
+  //       $regex: params.search_string,
+  //       $options: "i",
+  //     },
+  //   });
+  //   matchCond2.$or.push({
+  //     contact_person: {
+  //       $regex: params.search_string,
+  //       $options: "i",
+  //     },
+  //   });
+  //   matchCond2.$or.push({
+  //     description: {
+  //       $elemMatch: {
+  //         $regex: params.search_string,
+  //         $options: "i",
+  //       },
+  //     },
+  //   });
+  // }
   const { sortBy } = params;
   const { sortDir } = params;
   if (!utilsChecks.isNull(sortBy) && !utilsChecks.isEmptyString(sortBy)) {
@@ -99,8 +99,6 @@ const getListAllByMobile = async (params) => {
   const user_id = new ObjectId(params.user_id.toString());
 
   const facetParams = {
-    matchCondition1: matchCond1,
-    matchCondition2: matchCond2,
     sortCondition: sortCond,
     paginatedCondition: paginatedCond,
     search_string: params.search_string,
@@ -111,13 +109,86 @@ const getListAllByMobile = async (params) => {
     throw boom.notFound("No Data Found");
   }
   const result = {
-    message: "List Purchased Event Details",
+    message: "List Point Registry Details",
     detail: getList,
   };
   return result;
 };
 
+const getListAllByWeb = async (params) => {
+  // const matchCond2 = {};
+  const sortCond = {};
+  const paginatedCond = [];
+  const limitCond = {};
+  const skipCond = {};
+  // if (
+  //   params.search_string &&
+  //   !utilsChecks.isEmptyString(params.search_string) &&
+  //   !utilsChecks.isNull(params.search_string)
+  // ) {
+  //   matchCond2.$or = [];
+  //   matchCond2.$or.push({
+  //     name: {
+  //       $regex: params.search_string,
+  //       $options: "i",
+  //     },
+  //   });
+  //   matchCond2.$or.push({
+  //     contact_person: {
+  //       $regex: params.search_string,
+  //       $options: "i",
+  //     },
+  //   });
+  //   matchCond2.$or.push({
+  //     description: {
+  //       $elemMatch: {
+  //         $regex: params.search_string,
+  //         $options: "i",
+  //       },
+  //     },
+  //   });
+  // }
+  const { sortBy } = params;
+  const { sortDir } = params;
+  if (!utilsChecks.isNull(sortBy) && !utilsChecks.isEmptyString(sortBy)) {
+    if (!utilsChecks.isNull(sortDir) && !utilsChecks.isEmptyString(sortDir)) {
+      sortCond[sortBy] = sortDir === "desc" ? -1 : 1;
+    } else {
+      sortCond[sortBy] = 1;
+    }
+  } else {
+    sortCond.name = -1;
+  }
+  skipCond.$skip = params.offset * params.limit;
+  if (params.limit === "" || params.offset === "") {
+    skipCond.$skip = 0;
+  }
+  paginatedCond.push(skipCond);
+  if (params.limit) {
+    limitCond.$limit = params.limit;
+    paginatedCond.push(limitCond);
+  }
+
+
+  const facetParams = {
+    sortCondition: sortCond,
+    paginatedCondition: paginatedCond,
+    search_string: params.search_string,
+  };
+  const getList = await service.listWeb(facetParams);
+  if (!utilsChecks.isArray(getList) || utilsChecks.isEmptyArray(getList)) {
+    throw boom.notFound("No Data Found");
+  }
+  const result = {
+    message: "List Point Registry Details",
+    detail: getList,
+  };
+  return result;
+};
+
+
 module.exports = {
   registerPointRegistryEvent,
   getListAllByMobile,
+  getListAllByWeb
 };

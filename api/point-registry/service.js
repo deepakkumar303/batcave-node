@@ -9,15 +9,96 @@ const create = async (params) => {
 const listMobile = async (params) => {
   const result = await pointRegistryIndex.aggregate([
     {
-      $match: params.matchCondition1,
-    },
-    {
-      $match: params.matchCondition2,
-    },
-    {
       $match: {
         user_id: { $eq: params.user_id },
       },
+    },
+    {
+      $lookup: {
+        from: "event",
+        let: {
+          eventId: "$event_id",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  {
+                    $eq: ["$_id", "$$eventId"],
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        as: "event_detail",
+      },
+    },
+    {
+      $unwind: {
+        path: "$event_detail",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $sort: params.sortCondition,
+    },
+    {
+      $facet: {
+        paginatedResults: params.paginatedCondition,
+        totalCount: [
+          {
+            $count: "count",
+          },
+        ],
+      },
+    },
+  ]);
+  return result;
+};
+
+const listWeb = async (params) => {
+  const result = await pointRegistryIndex.aggregate([
+    // {
+    //   $match: {
+    //     user_id: { $eq: params.user_id },
+    //   },
+    // },
+    {
+      $lookup: {
+        from: "event",
+        let: {
+          eventId: "$event_id",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  {
+                    $eq: ["$_id", "$$eventId"],
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        as: "event_detail",
+      },
+    },
+    {
+      $unwind: {
+        path: "$event_detail",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $addFields: {
+        "event_detail": {
+          $mergeObjects: "$event_detail"
+        }
+      }
     },
     {
       $sort: params.sortCondition,
@@ -48,4 +129,5 @@ module.exports = {
   create,
   fetchDetails,
   listMobile,
+  listWeb
 };
