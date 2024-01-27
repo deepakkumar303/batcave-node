@@ -57,7 +57,8 @@ const addPurchaseEvent = async (params) => {
 };
 
 const getListAllByMobile = async (params) => {
-  const matchCond1 = {};
+  let currentDateTime = new Date();
+  let matchCond1 = {};
   const matchCond2 = {};
   const sortCond = {};
   const paginatedCond = [];
@@ -112,6 +113,16 @@ const getListAllByMobile = async (params) => {
   }
 
   const user_id = new ObjectId(params.user_id.toString());
+
+  matchCond1.$or = [];
+  if (params.is_completed === true) {
+    matchCond1.$or.push({
+      // Filter past events
+      to_date: { $lt: currentDateTime },
+    });
+  } else {
+    matchCond1 = {};
+  }
 
   const facetParams = {
     matchCondition1: matchCond1,

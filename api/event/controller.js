@@ -128,6 +128,7 @@ const getListAllMobile = async (params) => {
   let currentDateTime = new Date();
   let matchCond1 = {};
   const matchCond2 = {};
+  const matchCond3 = {};
   const sortCond = {};
   const paginatedCond = [];
   const limitCond = {};
@@ -181,6 +182,14 @@ const getListAllMobile = async (params) => {
   }
   const user_id = new ObjectId(params.user_id.toString());
 
+  
+  if (params.event_type) {
+    matchCond3.$or = [];
+    matchCond3.$or.push({
+      type: { $eq: params.event_type },
+    });
+  } 
+
   matchCond1.$or = [];
   if (params.event_status === "past") {
     matchCond1.$or.push({
@@ -200,7 +209,20 @@ const getListAllMobile = async (params) => {
       // Filter future events
       from_date: { $gt: currentDateTime },
     });
-  } else {
+  } else if (params.event_status === "liveAndFuture") {
+    matchCond1.$or.push({
+      $or: [
+        {
+          $and: [
+            { from_date: { $lte: currentDateTime } },
+            { to_date: { $gte: currentDateTime } },
+          ]
+        },
+        { from_date: { $gt: currentDateTime }, }
+      ]
+    });
+  } 
+  else {
     matchCond1 = {};
   }
   const facetParams = {
@@ -210,7 +232,8 @@ const getListAllMobile = async (params) => {
     paginatedCondition: paginatedCond,
     search_string: params.search_string,
     user_id: user_id,
-    matchCondition1: matchCond1
+    matchCondition1: matchCond1,
+    matchCondition3: matchCond3
   };
   // return facetParams
   const getList = await service.listMobile(facetParams);

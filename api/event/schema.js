@@ -112,6 +112,7 @@ module.exports.getAllByParamsByMobile = {
     offset: joi.number().required(),
     user_id: joi.string().required(),
     event_status: joi.string().allow(null, "").optional(),
+    event_type: joi.string().allow(null, "").optional(),
   },
 };
 

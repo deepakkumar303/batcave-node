@@ -20,6 +20,7 @@ module.exports.addSchema = {
 
 module.exports.getAllByParamsByMobile = {
   query: {
+    is_completed: joi.boolean().allow(null, "").optional(),
     search_string: joi.string().allow(null, "").optional(),
     sortBy: joi.string().allow(null, "").required(),
     sortDir: joi.string().allow(null, "").required(),

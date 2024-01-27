@@ -8,9 +8,7 @@ const create = async (params) => {
 
 const listMobile = async (params) => {
   const result = await PurchasedEventIndex.aggregate([
-    {
-      $match: params.matchCondition1,
-    },
+    
     {
       $match: params.matchCondition2,
     },
@@ -18,6 +16,42 @@ const listMobile = async (params) => {
       $match: {
         user_id: { $eq: params.user_id },
       },
+    },
+    {
+      $lookup: {
+        from: "event",
+        let: {
+          purchasedEventId: "$event_id",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  {
+                    $eq: ["$_id", "$$purchasedEventId"],
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        as: "event_detail",
+      },
+    },
+    {
+      $unwind: {
+        path: "$event_detail",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $addFields: {
+        to_date: '$event_detail.to_date'
+      }
+    },
+    {
+      $match: params.matchCondition1,
     },
     {
       $sort: params.sortCondition,
