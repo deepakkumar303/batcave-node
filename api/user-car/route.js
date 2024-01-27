@@ -26,6 +26,12 @@ router.get(
   c(controller.getListAll, (req, res, next) => [req.query])
 );
 
+router.get(
+  "/list-mobile",
+  celebrate(schema.getAllByParamsByMobile, schema.options),
+  c(controller.getListAllMobile, (req, res, next) => [req.query])
+);
+
 router.put(
   "/update/:user_car_id",
   authenticateMobileJWT,

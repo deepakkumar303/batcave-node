@@ -101,6 +101,17 @@ module.exports.getAllByParams = {
   },
 };
 
+module.exports.getAllByParamsByMobile = {
+  query: {
+      search_string: joi.string().allow(null, '').optional(),
+      sortBy: joi.string().allow(null, '').required(),
+      sortDir: joi.string().allow(null, '').required(),
+      limit: joi.number().required(),
+      offset: joi.number().required(),
+      user_id: joi.string().required(),
+  },
+};
+
 module.exports.getUserCarDetail = {
   params: {
     user_car_id: joi.string().required(),
