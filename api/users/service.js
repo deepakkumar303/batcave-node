@@ -59,6 +59,12 @@ const getDetail = async (params) => {
       },
     },
     {
+      $unwind: {
+        path: "$point_registry_detail",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
       $lookup: {
         from: "usersCar",
         let: {
