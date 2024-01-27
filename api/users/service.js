@@ -18,8 +18,44 @@ const getDetail = async (params) => {
     {
       $match: {
         _id: {
-          $eq: new ObjectId(params.emp_id),
+          $eq: new ObjectId(params.user_id),
         },
+      },
+    },
+    {
+      $lookup: {
+        from: "pointRegistry",
+        let: {
+          userId: "$_id",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  {
+                    $eq: ["$user_id", "$$userId"],
+                  },
+                ],
+              },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              totalCreditPoints: { $sum: "$credit_point" },
+              totalDebitPoints: { $sum: "$debit_point" }
+            }
+          },
+          {
+            $project: {
+              _id: 0,
+              totalCreditPoints: 1,
+              totalDebitPoints: 1
+            }
+          }
+        ],
+        as: "point_registry_detail",
       },
     },
     {

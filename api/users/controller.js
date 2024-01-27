@@ -14,7 +14,7 @@ const { ObjectId } = mongoose.Types;
 
 const getProfile = async (user) => {
   const reqParams = {
-    emp_id: user.id
+    user_id: user.id
   }
   const userDetail = await service.getDetail(reqParams);
   const result = {
