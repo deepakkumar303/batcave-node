@@ -35,6 +35,44 @@ const listMobile = async (params) => {
               },
             },
           },
+          {
+            $lookup: {
+              from: "purchasedEvent",
+              let: {
+                eventId: "$_id",
+              },
+              pipeline: [
+                {
+                  $match: {
+                    $expr: {
+                      $and: [
+                        {
+                          $eq: ["$event_id", "$$eventId"],
+                        },
+                        {
+                          $eq: ["$user_id", params.user_id],
+                        },
+                      ],
+                    },
+                  },
+                },
+              ],
+              as: "purchased_event_detail",
+            },
+          },
+          {
+            $addFields: {
+              isPurchased: {
+                $cond: [
+                  {
+                    $arrayElemAt: ["$purchased_event_detail", 0],
+                  },
+                  true,
+                  false,
+                ],
+              },
+            },
+          },
         ],
         as: "event_detail",
       },
