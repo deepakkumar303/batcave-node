@@ -240,6 +240,7 @@ const s3 = new aws.S3({
 });
 
 const uploadFile = async (params) => {
+  console.log('event-upload')
   const param = {
     Bucket: process.env.AWS_BUCKET,
     Key: `upload-event-doc/${Date.now()}-${params.originalname}`,
