@@ -5,6 +5,7 @@ const utilsChecks = require("../../system/utils/checks");
 
 const service = require("./service");
 const eventService = require("../event/service");
+const purchasedEventService = require("../purchased-event/service");
 const userService = require("../users/service");
 const { generateTicketNumbers } = require("../../system/utils/common-utils");
 require("dotenv").config();
@@ -12,7 +13,8 @@ require("dotenv").config();
 const { ObjectId } = mongoose.Types;
 
 const registerPointRegistryEvent = async (params) => {
-  const purchasedEventDetail = await service.fetchDetails(params);
+  const pointRegistryDetail = await service.fetchDetails(params);
+  const purchasedEventDetail = await purchasedEventService.fetchDetails(params);
   const userDetail = await userService.getDetail(params);
   
   // return userDetail;
@@ -24,7 +26,7 @@ const registerPointRegistryEvent = async (params) => {
   if (!eventDetail && eventDetail.length === 0) {
     throw boom.conflict("Event not found");
   }
-  if (purchasedEventDetail.length > 0) {
+  if (pointRegistryDetail.length > 0) {
     throw boom.conflict("Already Purchased");
   }
   if(userDetail[0].membership === 'free') {
@@ -39,6 +41,7 @@ const registerPointRegistryEvent = async (params) => {
     eventPurchaseDetail: eventPurchaseDetail,
     eventDetail: eventDetail,
     userDetail: userDetail,
+    purchasedEventDetail: purchasedEventDetail,
     message: "Ticket Scaned Succesfully.",
   };
   return result;

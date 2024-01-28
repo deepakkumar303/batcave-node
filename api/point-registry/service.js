@@ -116,6 +116,32 @@ const listWeb = async (params) => {
       },
     },
     {
+      $lookup: {
+        from: "purchasedEvent",
+        let: {
+          userId: "$user_id",
+          eventId: "$event_id",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  {
+                    $eq: ["$user_id", "$$userId"],
+                  },
+                  {
+                    $eq: ["$event_id", "$$eventId"],
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        as: "purchased_event_detail",
+      },
+    },
+    {
       $unwind: {
         path: "$user_detail",
         preserveNullAndEmptyArrays: true,
