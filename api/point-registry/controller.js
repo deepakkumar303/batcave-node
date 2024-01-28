@@ -36,7 +36,9 @@ const registerPointRegistryEvent = async (params) => {
   
   const eventPurchaseDetail = await service.create(params);
   const result = {
-    detail: eventPurchaseDetail,
+    eventPurchaseDetail: eventPurchaseDetail,
+    eventDetail: eventDetail,
+    userDetail: userDetail,
     message: "Event PurchaseDetail added successfully.",
   };
   return result;
