@@ -39,7 +39,7 @@ const registerPointRegistryEvent = async (params) => {
     eventPurchaseDetail: eventPurchaseDetail,
     eventDetail: eventDetail,
     userDetail: userDetail,
-    message: "Event PurchaseDetail added successfully.",
+    message: "Ticket Scaned Succesfully.",
   };
   return result;
 };

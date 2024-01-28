@@ -94,12 +94,40 @@ const listWeb = async (params) => {
       },
     },
     {
-      $addFields: {
-        "event_detail": {
-          $mergeObjects: "$event_detail"
-        }
-      }
+      $lookup: {
+        from: "users",
+        let: {
+          userId: "$user_id",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  {
+                    $eq: ["$_id", "$$userId"],
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        as: "user_detail",
+      },
     },
+    {
+      $unwind: {
+        path: "$user_detail",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    // {
+    //   $addFields: {
+    //     "event_detail": {
+    //       $mergeObjects: "$event_detail"
+    //     }
+    //   }
+    // },
     {
       $sort: params.sortCondition,
     },
