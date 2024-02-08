@@ -34,7 +34,7 @@ const mailjet = Mailjet.apiConnect(
 
 process.on("SIGINT", () => {
   console.log(
-    "SIGINT signal received. Shutting down server (gracefully; maybe.)"
+    "SIGINT signal received. Shutting down server (gracefully; maybe.)."
   );
   const cleanUp = () => {
     mongo.closeDbConn();
