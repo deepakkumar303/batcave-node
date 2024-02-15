@@ -53,6 +53,7 @@ const updateUser = async (params, body) => {
 };
 
 const login = async (params) => {
+  console.log('params', params);
   const userDetail = await User.find({
     $or: [
       { mobile: params.mobile },

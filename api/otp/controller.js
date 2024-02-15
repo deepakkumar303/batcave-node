@@ -13,8 +13,10 @@ const { sendMobileOtp } = require("../../system/utils/send-sms");
 const { ObjectId } = mongoose.Types;
 
 const resendOtp = async (params) => {
-
-  const otpDetail = await Otp.find({ mobile: params.mobile, email: params.email });
+  const otpDetail = await Otp.find({
+    mobile: params.mobile,
+    // email: params.email,
+  });
   if (otpDetail.length > 0) {
     await Otp.findOneAndDelete({ mobile: params.mobile });
   }
@@ -22,19 +24,19 @@ const resendOtp = async (params) => {
   const userDetail = await User.find({ mobile: params.mobile });
 
   const response = await service.createOtp(params);
-  const emailParams = {
-    name: params.name,
-    otp: response.email_otp,
-    email: params.email,
-    mobile_otp: response.mobile_otp,
-  }
+  // const emailParams = {
+  //   name: params.name,
+  //   otp: response.email_otp,
+  //   email: params.email,
+  //   mobile_otp: response.mobile_otp,
+  // };
   const smsParams = {
     name: params.name,
     otp: response.mobile_otp,
-    mobile: params.mobile
-  }
-  await sendEmailOtp(emailParams)
-  await sendMobileOtp(smsParams)
+    mobile: params.mobile,
+  };
+  // await sendEmailOtp(emailParams);
+  await sendMobileOtp(smsParams);
   const result = {
     // detail: otpDetail,
     message: "Please verify OTP",
@@ -47,10 +49,7 @@ const verifyOtp = async (params) => {
   if (otpDetail.length === 0) {
     throw boom.conflict("Incorect number or otp");
   }
-  if (
-    otpDetail[0].mobile_otp === params.mobile_otp &&
-    otpDetail[0].email_otp === params.email_otp
-  ) {
+  if (otpDetail[0].mobile_otp === params.mobile_otp) {
     await User.findOneAndUpdate(
       { mobile: params.mobile },
       { is_verifed: true }
