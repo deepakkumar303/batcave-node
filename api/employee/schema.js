@@ -39,32 +39,32 @@ module.exports.addSchema = {
 
 module.exports.updateSchema = {
   body: joi.object().keys({
-    emp_id: joi.string().optional(),
-    name: joi.string().optional(),
-    dob: joi.string().optional(),
-    gender: joi.string().optional(),
+    emp_id: joi.string().allow(null, "").optional(),
+    name: joi.string().allow(null, "").optional(),
+    dob: joi.string().allow(null, "").optional(),
+    gender: joi.string().allow(null, "").optional(),
     mobile: joi.number().optional(),
-    password: joi.string().optional(),
+    // password: joi.string().allow(null, "").optional(),
     email: joi.string().email().optional(),
     bank_details: joi
       .object({
-        account_holder_name: joi.string().optional(),
+        account_holder_name: joi.string().allow(null, "").optional(),
         account_number: joi.number().optional(),
-        account_ifsci_code: joi.string().optional(),
-        branch_name: joi.string().optional(),
+        account_ifsci_code: joi.string().allow(null, "").optional(),
+        branch_name: joi.string().allow(null, "").optional(),
       })
       .optional(),
     document: joi
       .object({
         aadhar: joi
           .object({
-            actual_name: joi.string().optional(),
-            internal_name: joi.string().optional(),
+            actual_name: joi.string().allow(null, "").optional(),
+            internal_name: joi.string().allow(null, "").optional(),
           })
           .optional(),
       })
       .optional(),
-    role: joi.string().optional(),
+    role: joi.string().allow(null, "").optional(),
   }),
   params: {
     employee_id: joi.string().allow(null, "").required(),
