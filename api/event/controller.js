@@ -192,7 +192,7 @@ const getListAllMobile = async (params) => {
   }
   const user_id = new ObjectId(params.user_id.toString());
 
-  if (eventTypesArray.length > 0) {
+  if (params.event_type && eventTypesArray.length > 0) {
     matchCond3.$or = [];
     matchCond3.$or.push({
       type: { $in: eventTypesArray },
