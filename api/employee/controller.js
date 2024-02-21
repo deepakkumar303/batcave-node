@@ -28,7 +28,13 @@ const getProfile = async (user) => {
 
 const addEmplyee = async (params, user) => {
   if (user.role === "SU") {
-    const employeeDetail = await EmployeeIndex.find({ email: params.email });
+    // const employeeDetail = await EmployeeIndex.find({ email: params.email });
+    const employeeDetail = await EmployeeIndex.find({
+      $or: [
+        { email: params.email },
+        { emp_id: params.emp_id }
+      ]
+    } );
     if (employeeDetail.length > 0) {
       throw boom.conflict("Employee already exists");
     }
@@ -186,6 +192,40 @@ const getEmpDetail = async (params) => {
   return result;
 };
 
+const employeeDelete = async (params) => {
+  // const EventDetail = await EventIndex.find({ _id: params.event_id });
+  const reqParams = {
+    emp_id: params.employee_id,
+  }
+  const userDetail = await service.getDetail(reqParams);
+  if(userDetail.length === 0) {
+    throw boom.conflict("No data found");
+  }
+  // return userDetail
+  const employeeDelete = await EmployeeIndex.findOneAndDelete({
+    _id: params.employee_id,
+  });
+  // if (employeeDelete && employeeDelete.length === 0) {
+  //   throw boom.conflict("No data found");
+  // }
+  // await EventIndex.findOneAndUpdate(
+  //   { _id: params.event_id },
+  //   { is_approved: false, is_rejected: true }
+  // );
+  return {
+    message: "Employee Successfully Deleted",
+  };
+};
+
+const updateEmployee = async (params, body) => {
+  const employeeDetail = await service.update(params, body);
+  const result = {
+    // detail: employeeDetail,
+    message: "Employee update successfully.",
+  };
+  return result;
+};
+
 const s3 = new aws.S3({
   accessKeyId: process.env.AWS_S3_ACCESSKEYID,
   secretAccessKey: process.env.AWS_SECRET_ACCESSKEY,
@@ -251,4 +291,6 @@ module.exports = {
   getListAll,
   getEmpDetail,
   getProfile,
+  employeeDelete,
+  updateEmployee
 };

@@ -125,6 +125,16 @@ const getListAll = async (params) => {
 };
 
 const getListAllMobile = async (params) => {
+  // JSON.parse(params.event_type)
+  // const eventTypes = JSON.parse(params.event_type);
+  // return {params, eventTypes};
+  // Extract the string between "[" and "]" and split it by comma
+  const eventTypesString = params.event_type.substring(
+    1,
+    params.event_type.length - 1
+  );
+  const eventTypesArray = eventTypesString.split(", ");
+  // return {params, eventTypesArray}
   let currentDateTime = new Date();
   let matchCond1 = {};
   const matchCond2 = {};
@@ -182,13 +192,12 @@ const getListAllMobile = async (params) => {
   }
   const user_id = new ObjectId(params.user_id.toString());
 
-  
-  if (params.event_type) {
+  if (eventTypesArray.length > 0) {
     matchCond3.$or = [];
     matchCond3.$or.push({
-      type: { $eq: params.event_type },
+      type: { $in: eventTypesArray },
     });
-  } 
+  }
 
   matchCond1.$or = [];
   if (params.event_status === "past") {
@@ -216,13 +225,12 @@ const getListAllMobile = async (params) => {
           $and: [
             { from_date: { $lte: currentDateTime } },
             { to_date: { $gte: currentDateTime } },
-          ]
+          ],
         },
-        { from_date: { $gt: currentDateTime }, }
-      ]
+        { from_date: { $gt: currentDateTime } },
+      ],
     });
-  } 
-  else {
+  } else {
     matchCond1 = {};
   }
   const facetParams = {
@@ -233,7 +241,7 @@ const getListAllMobile = async (params) => {
     search_string: params.search_string,
     user_id: user_id,
     matchCondition1: matchCond1,
-    matchCondition3: matchCond3
+    matchCondition3: matchCond3,
   };
   // return facetParams
   const getList = await service.listMobile(facetParams);

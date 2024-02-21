@@ -56,8 +56,17 @@ const getDetail = async (params) => {
   return result;
 };
 
+const update = async (params, body) => {
+  const result = await EmployeeIndex.findOneAndUpdate(
+    { _id: params.employee_id },
+    body
+  );
+  return result;
+};
+
 module.exports = {
   create,
   list,
   getDetail,
+  update
 };

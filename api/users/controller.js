@@ -2,20 +2,20 @@ const mongoose = require("mongoose");
 const boom = require("@hapi/boom");
 const aws = require("aws-sdk");
 const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const service = require("./service");
-const User = require('./index');
+const User = require("./index");
 const { generateUniqueNumber } = require("../../system/utils/common-utils");
 const { resendOtp } = require("../otp/controller");
-require('dotenv').config();
+require("dotenv").config();
 
 const { ObjectId } = mongoose.Types;
 
 const getProfile = async (user) => {
   const reqParams = {
-    user_id: user.id
-  }
+    user_id: user.id,
+  };
   const userDetail = await service.getDetail(reqParams);
   const result = {
     detail: userDetail,
@@ -33,7 +33,7 @@ const register = async (params) => {
   const hashedPassword = await bcrypt.hash(password, 10);
   params.password = hashedPassword;
   params.unique_number = generateUniqueNumber();
-  
+
   const createUser = await service.create(params);
   await resendOtp(createUser);
   const result = {
@@ -53,26 +53,23 @@ const updateUser = async (params, body) => {
 };
 
 const login = async (params) => {
-  console.log('params', params);
+  console.log("params", params);
   const userDetail = await User.find({
-    $or: [
-      { mobile: params.mobile },
-      { unique_number: params.mobile }
-    ]
-  } );
+    $or: [{ mobile: params.mobile }, { unique_number: params.mobile }],
+  });
   if (userDetail.length === 0) {
     throw boom.conflict("User not found");
   }
 
-
   // Compare the provided password with the stored hashed password
-  const passwordMatch = await bcrypt.compare(params.password, userDetail[0].password);
-
+  const passwordMatch = await bcrypt.compare(
+    params.password,
+    userDetail[0].password
+  );
 
   if (passwordMatch) {
-    if(!userDetail[0].is_verifed) {
+    if (!userDetail[0].is_verifed) {
       throw boom.conflict("Mobile number not verifed", userDetail);
-
     }
     // Generate JWT token
     const payload = {
@@ -84,9 +81,9 @@ const login = async (params) => {
       email: userDetail[0].email,
       role: userDetail[0].role,
     };
-    
+
     const secret = process.env.JWT_MOBILE_TOKEN_SECRET;
-    const options = { expiresIn: '99h' };
+    const options = { expiresIn: "99h" };
     const token = jwt.sign(payload, secret, options);
 
     // return token
@@ -95,24 +92,24 @@ const login = async (params) => {
       message: "logged in successfully",
     };
   } else {
-    throw boom.conflict('Invalid password');
+    throw boom.conflict("Invalid password");
   }
 };
 
 const resetPassword = async (body) => {
   const userDetail = await User.find({
-    $or: [
-      { mobile: body.mobile },
-      { email: body.mobile }
-    ]
-  } );
+    $or: [{ mobile: body.mobile }, { email: body.mobile }],
+  });
   if (userDetail.length === 0) {
     throw boom.conflict("User not found");
   }
   const { password } = body;
   const hashedPassword = await bcrypt.hash(password, 10);
   body.password = hashedPassword;
-  await service.update({user_id: userDetail[0]._id}, {password: body.password});
+  await service.update(
+    { user_id: userDetail[0]._id },
+    { password: body.password }
+  );
   const result = {
     // detail: userDetail,
     message: "Password Changed Successfully.",
@@ -122,11 +119,8 @@ const resetPassword = async (body) => {
 
 const forgotPassword = async (params) => {
   const userDetail = await User.find({
-    $or: [
-      { mobile: params.mobile },
-      { email: params.mobile }
-    ]
-  } );
+    $or: [{ mobile: params.mobile }, { email: params.mobile }],
+  });
   if (userDetail.length === 0) {
     throw boom.conflict("User not found");
   }
@@ -202,5 +196,5 @@ module.exports = {
   getProfile,
   updateUser,
   forgotPassword,
-  resetPassword
+  resetPassword,
 };

@@ -37,6 +37,40 @@ module.exports.addSchema = {
   }),
 };
 
+module.exports.updateSchema = {
+  body: joi.object().keys({
+    emp_id: joi.string().optional(),
+    name: joi.string().optional(),
+    dob: joi.string().optional(),
+    gender: joi.string().optional(),
+    mobile: joi.number().optional(),
+    password: joi.string().optional(),
+    email: joi.string().email().optional(),
+    bank_details: joi
+      .object({
+        account_holder_name: joi.string().optional(),
+        account_number: joi.number().optional(),
+        account_ifsci_code: joi.string().optional(),
+        branch_name: joi.string().optional(),
+      })
+      .optional(),
+    document: joi
+      .object({
+        aadhar: joi
+          .object({
+            actual_name: joi.string().optional(),
+            internal_name: joi.string().optional(),
+          })
+          .optional(),
+      })
+      .optional(),
+    role: joi.string().optional(),
+  }),
+  params: {
+    employee_id: joi.string().allow(null, "").required(),
+  },
+};
+
 module.exports.loginSchema = {
   body: joi.object().keys({
     email: joi.string().required(),
@@ -72,4 +106,10 @@ module.exports.fileDeleteSchema = {
   body: joi.object({
     file_url: joi.string().required(),
   }),
+};
+
+module.exports.deleteSchema = {
+  body: {
+    employee_id: joi.string().required(),
+  },
 };

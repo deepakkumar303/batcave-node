@@ -15,6 +15,13 @@ router.post(
   c(controller.addEmplyee, (req, res, next) => [req.body, req.user])
 );
 
+router.put(
+  "/update/:employee_id",
+  authenticateWebJWT,
+  celebrate(schema.updateSchema, schema.options),
+  c(controller.updateEmployee, (req, res, next) => [req.params, req.body])
+);
+
 router.get(
   "/profile",
   authenticateWebJWT,
@@ -33,6 +40,13 @@ router.get(
   authenticateWebJWT,
   celebrate(schema.getEmpDetail, schema.options),
   c(controller.getEmpDetail, (req, res, next) => [req.params])
+);
+
+router.delete(
+  "/delete",
+  authenticateWebJWT,
+  celebrate(schema.deleteSchema, schema.options),
+  c(controller.employeeDelete, (req, res, next) => [req.body])
 );
 
 // Multer Configuration
