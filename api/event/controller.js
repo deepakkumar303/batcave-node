@@ -297,6 +297,11 @@ const eventReject = async (params) => {
 };
 
 const eventDelete = async (params) => {
+  const EventDetails = await EventIndex.find({ _id: params.event_id });
+  // return EventDetails;
+  if (EventDetails.length === 0) {
+    throw boom.conflict("No data found");
+  }
   // const EventDetail = await EventIndex.find({ _id: params.event_id });
   const EventDetail = await EventIndex.findOneAndDelete({
     _id: params.event_id,

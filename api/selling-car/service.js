@@ -36,10 +36,19 @@ const list = async (params) => {
         },
       },
     },
+    // {
+    //   $addFields: {
+    //     price: {
+    //       $toInt: '$car_summary.price'
+    //     }
+    //   }
+    // },
     {
       $addFields: {
         price: {
-          $toInt: '$car_summary.price'
+          $toDouble: {
+            $substr: [ "$car_summary.price", 0, -1 ]
+          }
         }
       }
     },
@@ -75,13 +84,14 @@ const list = async (params) => {
     },
     {
       $project: {
+        car_summary: 1,
         car_reg_no: "$overview.vin",
         post_date: "$createdAt",
         car_name: "$car_summary.car_name",
         reg_state: "$car_summary.reg_state",
         reg_year: "$car_summary.reg_year",
         model: "$overview.model",
-        price: "$car_summary.price",
+        price: 1,
         status: "$status",
         car_image: "$car_summary.car_image",
         kms: "$car_summary.kms",
