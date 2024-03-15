@@ -6,6 +6,9 @@ const queriesSchema = new Schema(
       type: Schema.ObjectId,
       auto: true,
     },
+    ticket: {
+      type: String,
+    },
     description: {
       type: String,
     },

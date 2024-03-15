@@ -6,7 +6,7 @@ const utilsChecks = require("../../system/utils/checks");
 
 const service = require("./service");
 const eventService = require("../event/service");
-const { generateTicketNumbers } = require("../../system/utils/common-utils");
+const { generateTicketNumbers, generateUniqueNumber } = require("../../system/utils/common-utils");
 require("dotenv").config();
 
 const { ObjectId } = mongoose.Types;
@@ -14,6 +14,7 @@ const { ObjectId } = mongoose.Types;
 const addQueries = async (params, user) => {
   params.user_id = user.id;
   params.status = 'open';
+  params.ticket = `T${generateUniqueNumber()}`;
   const detail = await service.create(params);
   const result = {
     detail: detail,
@@ -112,7 +113,7 @@ const getListAllByMobile = async (params, user) => {
     throw boom.notFound("No Data Found");
   }
   const result = {
-    message: "List Purchased Event Details",
+    message: "List Queries Event Details",
     detail: getList,
   };
   return result;
@@ -125,6 +126,16 @@ const getListAll = async (params) => {
   const paginatedCond = [];
   const limitCond = {};
   const skipCond = {};
+  let statusCondition = {}
+  if (params.status) {
+    statusCondition.$or = [];
+    statusCondition.$or.push({
+      // Filter past events
+      status: params.status,
+    });
+  } else {
+    statusCondition = {};
+  }
   if (
     params.search_string &&
     !utilsChecks.isEmptyString(params.search_string) &&
@@ -177,6 +188,7 @@ const getListAll = async (params) => {
     sortCondition: sortCond,
     paginatedCondition: paginatedCond,
     search_string: params.search_string,
+    statusCondition: statusCondition
   };
   const getList = await service.list(facetParams);
   if (!utilsChecks.isArray(getList) || utilsChecks.isEmptyArray(getList)) {

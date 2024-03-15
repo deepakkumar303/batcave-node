@@ -16,7 +16,6 @@ const update = async (params) => {
 
 const listMobile = async (params) => {
   const result = await queriesIndex.aggregate([
-    
     {
       $match: params.matchCondition2,
     },
@@ -47,13 +46,44 @@ const listMobile = async (params) => {
 
 const list = async (params) => {
   const result = await queriesIndex.aggregate([
-    
-    {
-      $match: params.matchCondition2,
-    },
     {
       $match: params.matchCondition1,
     },
+    {
+      $match: params.statusCondition,
+    },
+    {
+      $lookup: {
+        from: "users",
+        let: {
+          userId: "$user_id",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  {
+                    $eq: ["$_id", "$$userId"],
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        as: "user_detail",
+      },
+    },
+    {
+      $unwind: {
+        path: "$user_detail",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+    {
+      $match: params.matchCondition2,
+    },
+
     {
       $sort: params.sortCondition,
     },
@@ -84,5 +114,5 @@ module.exports = {
   update,
   fetchDetails,
   listMobile,
-  list
+  list,
 };

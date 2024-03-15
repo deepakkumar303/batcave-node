@@ -40,6 +40,7 @@ module.exports.getAllByParamsByMobile = {
 
 module.exports.getAllByParamsByWeb = {
   query: {
+    status: joi.string().allow(null, "").optional(),
     search_string: joi.string().allow(null, "").optional(),
     sortBy: joi.string().allow(null, "").required(),
     sortDir: joi.string().allow(null, "").required(),

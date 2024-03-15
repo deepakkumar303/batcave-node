@@ -19,7 +19,7 @@ router.post(
 router.post(
   "/reopen",
   authenticateMobileJWT,
-  celebrate(schema.closeSchema, schema.options),
+  celebrate(schema.reopenSchema, schema.options),
   c(controller.reopenQueries, (req, res, next) => [req.body, req.user])
 );
 
