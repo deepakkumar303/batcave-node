@@ -16,18 +16,11 @@ router.post(
   c(controller.addQueries, (req, res, next) => [req.body, req.user])
 );
 
-router.post(
-  "/reopen",
-  authenticateMobileJWT,
-  celebrate(schema.reopenSchema, schema.options),
-  c(controller.reopenQueries, (req, res, next) => [req.body, req.user])
-);
-
-router.post(
-  "/close",
+router.put(
+  "/status-update",
   // authenticateMobileJWT,
-  celebrate(schema.closeSchema, schema.options),
-  c(controller.closeQueries, (req, res, next) => [req.body, req.user])
+  celebrate(schema.statusUpdateSchema, schema.options),
+  c(controller.statusUpdateQuries, (req, res, next) => [req.body, req.user])
 );
 
 router.get(

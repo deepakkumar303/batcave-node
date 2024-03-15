@@ -45,6 +45,15 @@ const closeQueries = async (params) => {
   return result;
 };
 
+const statusUpdateQuries = async (params) => {
+  const detail = await service.update(params);
+  const result = {
+    // detail: detail,
+    message: "Queries updated successfully.",
+  };
+  return result;
+};
+
 const getListAllByMobile = async (params, user) => {
   let matchCond1 = {};
   const matchCond2 = {};
@@ -206,5 +215,6 @@ module.exports = {
   reopenQueries,
   closeQueries,
   getListAllByMobile,
-  getListAll
+  getListAll,
+  statusUpdateQuries
 };

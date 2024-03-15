@@ -12,10 +12,7 @@ const queriesSchema = new Schema(
     description: {
       type: String,
     },
-    reopen_description: {
-      type: String,
-    },
-    close_description: {
+    comments: {
       type: String,
     },
     status: {

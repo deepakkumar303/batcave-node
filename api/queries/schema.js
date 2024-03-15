@@ -12,17 +12,14 @@ module.exports.addSchema = {
   }),
 };
 
-module.exports.reopenSchema = {
+module.exports.statusUpdateSchema = {
   body: joi.object().keys({
     queries_id: joi.string().required(),
-    reopen_description: joi.string().required(),
-  }),
-};
-
-module.exports.closeSchema = {
-  body: joi.object().keys({
-    queries_id: joi.string().required(),
-    close_description: joi.string().required(),
+    comments: joi.string().required(),
+    status: joi
+      .string()
+      .valid("open", "in_progress", "on_hold", "close", "re_open")
+      .required(),
   }),
 };
 

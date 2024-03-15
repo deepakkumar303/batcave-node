@@ -36,9 +36,22 @@ const register = async (params) => {
   params.unique_number = generateUniqueNumber();
 
   const createUser = await service.create(params);
+  const payload = {
+    id: createUser._id,
+    name: createUser.name,
+    mobile: createUser.mobile,
+    dob: createUser.dob,
+    address: createUser.address,
+    email: createUser.email,
+    role: createUser.role,
+  };
+
+  const secret = process.env.JWT_MOBILE_TOKEN_SECRET;
+  const options = { expiresIn: "99h" };
+  const token = jwt.sign(payload, secret, options);
   await resendOtp(createUser);
   const result = {
-    detail: createUser,
+    detail: { createUser, token },
     message: "Please verify OTP",
   };
   return result;
@@ -283,5 +296,5 @@ module.exports = {
   updateUser,
   forgotPassword,
   resetPassword,
-  getListAll
+  getListAll,
 };
