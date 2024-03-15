@@ -6,41 +6,22 @@ const utilsChecks = require("../../system/utils/checks");
 
 const service = require("./service");
 const eventService = require("../event/service");
-const { generateTicketNumbers, generateUniqueNumber } = require("../../system/utils/common-utils");
+const {
+  generateTicketNumbers,
+  generateUniqueNumber,
+} = require("../../system/utils/common-utils");
 require("dotenv").config();
 
 const { ObjectId } = mongoose.Types;
 
 const addQueries = async (params, user) => {
   params.user_id = user.id;
-  params.status = 'open';
+  params.status = "open";
   params.ticket = `T${generateUniqueNumber()}`;
   const detail = await service.create(params);
   const result = {
     detail: detail,
     message: "Queries added successfully.",
-  };
-  return result;
-};
-
-const reopenQueries = async (params) => {
-  // params.user_id = user.id;
-  params.status = 'reopen';
-  const detail = await service.update(params);
-  const result = {
-    // detail: detail,
-    message: "Queries reopened successfully.",
-  };
-  return result;
-};
-
-const closeQueries = async (params) => {
-  // params.user_id = user.id;
-  params.status = 'close';
-  const detail = await service.update(params);
-  const result = {
-    // detail: detail,
-    message: "Queries closed successfully.",
   };
   return result;
 };
@@ -68,11 +49,9 @@ const getListAllByMobile = async (params, user) => {
   ) {
     matchCond2.$or = [];
     matchCond2.$or.push({
-      description: {
-        $elemMatch: {
-          $regex: params.search_string,
-          $options: "i",
-        },
+      ticket: {
+        $regex: params.search_string,
+        $options: "i",
       },
     });
   }
@@ -135,7 +114,7 @@ const getListAll = async (params) => {
   const paginatedCond = [];
   const limitCond = {};
   const skipCond = {};
-  let statusCondition = {}
+  let statusCondition = {};
   if (params.status) {
     statusCondition.$or = [];
     statusCondition.$or.push({
@@ -152,11 +131,9 @@ const getListAll = async (params) => {
   ) {
     matchCond2.$or = [];
     matchCond2.$or.push({
-      description: {
-        $elemMatch: {
-          $regex: params.search_string,
-          $options: "i",
-        },
+      ticket: {
+        $regex: params.search_string,
+        $options: "i",
       },
     });
   }
@@ -197,7 +174,7 @@ const getListAll = async (params) => {
     sortCondition: sortCond,
     paginatedCondition: paginatedCond,
     search_string: params.search_string,
-    statusCondition: statusCondition
+    statusCondition: statusCondition,
   };
   const getList = await service.list(facetParams);
   if (!utilsChecks.isArray(getList) || utilsChecks.isEmptyArray(getList)) {
@@ -216,5 +193,5 @@ module.exports = {
   closeQueries,
   getListAllByMobile,
   getListAll,
-  statusUpdateQuries
+  statusUpdateQuries,
 };
