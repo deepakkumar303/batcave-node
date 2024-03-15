@@ -14,6 +14,7 @@ const pointRegistry = require("./api/point-registry/route");
 const employeeRoute = require("./api/employee/route");
 const eventRoute = require("./api/event/route");
 const eventPurchaseRoute = require("./api/purchased-event/route");
+const queriesRoute = require("./api/queries/route");
 const cors = require("cors");
 
 const axios = require("axios");
@@ -114,6 +115,7 @@ app.use("/api/event", eventRoute);
 app.use("/api/event-purchase", eventPurchaseRoute);
 app.use("/api/selling-car", sellingCar);
 app.use("/api/point-registry", pointRegistry);
+app.use("/api/queries", queriesRoute);
 
 app.use((req, res, next) => {
   // throw boom.notFound("Endpoint Not Found");

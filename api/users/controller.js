@@ -8,6 +8,7 @@ const service = require("./service");
 const User = require("./index");
 const { generateUniqueNumber } = require("../../system/utils/common-utils");
 const { resendOtp } = require("../otp/controller");
+const utilsChecks = require("../../system/utils/checks");
 require("dotenv").config();
 
 const { ObjectId } = mongoose.Types;
@@ -132,6 +133,91 @@ const forgotPassword = async (params) => {
   return result;
 };
 
+const getListAll = async (params) => {
+  const matchCond1 = {};
+  const matchCond2 = {};
+  const sortCond = {};
+  const paginatedCond = [];
+  const limitCond = {};
+  const skipCond = {};
+  if (
+    params.search_string &&
+    !utilsChecks.isEmptyString(params.search_string) &&
+    !utilsChecks.isNull(params.search_string)
+  ) {
+    matchCond2.$or = [];
+    matchCond2.$or.push({
+      name: {
+        $regex: params.search_string,
+        $options: "i",
+      },
+    });
+    matchCond2.$or.push({
+      mobile: {
+        $regex: params.search_string,
+        $options: "i",
+      },
+    });
+    matchCond2.$or.push({
+      address: {
+        $elemMatch: {
+          $regex: params.search_string,
+          $options: "i",
+        },
+      },
+    });
+    matchCond2.$or.push({
+      email: {
+        $regex: params.search_string,
+        $options: "i",
+      },
+    });
+    // matchCond2.$or.push({
+    //     'contact_bidders.bidder_name': {
+    //         $regex: params.search_string,
+    //         $options: 'i',
+    //     },
+    // });
+  }
+  const { sortBy } = params;
+  const { sortDir } = params;
+  if (!utilsChecks.isNull(sortBy) && !utilsChecks.isEmptyString(sortBy)) {
+    if (!utilsChecks.isNull(sortDir) && !utilsChecks.isEmptyString(sortDir)) {
+      sortCond[sortBy] = sortDir === "desc" ? -1 : 1;
+    } else {
+      sortCond[sortBy] = 1;
+    }
+  } else {
+    sortCond.createdAt = -1;
+  }
+  skipCond.$skip = params.offset * params.limit;
+  if (params.limit === "" || params.offset === "") {
+    skipCond.$skip = 0;
+  }
+  paginatedCond.push(skipCond);
+  if (params.limit) {
+    limitCond.$limit = params.limit;
+    paginatedCond.push(limitCond);
+  }
+  const facetParams = {
+    matchCondition1: matchCond1,
+    matchCondition2: matchCond2,
+    sortCondition: sortCond,
+    paginatedCondition: paginatedCond,
+    search_string: params.search_string,
+  };
+  // return facetParams
+  const getList = await service.list(facetParams);
+  if (!utilsChecks.isArray(getList) || utilsChecks.isEmptyArray(getList)) {
+    throw boom.notFound("No Data Found");
+  }
+  const result = {
+    message: "List Employee Details",
+    detail: getList,
+  };
+  return result;
+};
+
 const s3 = new aws.S3({
   accessKeyId: process.env.AWS_S3_ACCESSKEYID,
   secretAccessKey: process.env.AWS_SECRET_ACCESSKEY,
@@ -197,4 +283,5 @@ module.exports = {
   updateUser,
   forgotPassword,
   resetPassword,
+  getListAll
 };

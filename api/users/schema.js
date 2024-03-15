@@ -13,7 +13,7 @@ module.exports.create = {
     dob: joi.string().optional(),
     address: joi.string().optional(),
     email: joi.string().optional(),
-    referal_id: joi.string().allow(null, '').optional(),
+    referal_id: joi.string().allow(null, "").optional(),
     password: joi.string().optional(),
     is_verifed: joi.string().optional(),
     role: joi.string().optional(),
@@ -27,7 +27,7 @@ module.exports.updateSchema = {
     dob: joi.string().optional(),
     address: joi.string().optional(),
     email: joi.string().optional(),
-    referal_id: joi.string().allow(null, '').optional(),
+    referal_id: joi.string().allow(null, "").optional(),
     password: joi.string().optional(),
     is_verifed: joi.string().optional(),
     role: joi.string().optional(),
@@ -71,7 +71,17 @@ module.exports.upload = {
 };
 
 module.exports.fileDeleteSchema = {
-    body: joi.object({
-      file_url: joi.string().required(),
-    }),
-  };
+  body: joi.object({
+    file_url: joi.string().required(),
+  }),
+};
+
+module.exports.getAllByParams = {
+  query: {
+    search_string: joi.string().allow(null, "").optional(),
+    sortBy: joi.string().allow(null, "").required(),
+    sortDir: joi.string().allow(null, "").required(),
+    limit: joi.number().required(),
+    offset: joi.number().required(),
+  },
+};

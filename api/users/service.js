@@ -95,8 +95,39 @@ const getDetail = async (params) => {
   return result;
 };
 
+const list = async (params) => {
+  const result = await User.aggregate([
+    {
+      $match: params.matchCondition1,
+    },
+    {
+      $match: params.matchCondition2,
+    },
+    {
+      $sort: params.sortCondition,
+    },
+    {
+      $project: {
+        password: 0,
+      },
+    },
+    {
+      $facet: {
+        paginatedResults: params.paginatedCondition,
+        totalCount: [
+          {
+            $count: "count",
+          },
+        ],
+      },
+    },
+  ]);
+  return result;
+};
+
 module.exports = {
   create,
   getDetail,
   update,
+  list
 };

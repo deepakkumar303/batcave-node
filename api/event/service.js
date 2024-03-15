@@ -19,11 +19,62 @@ const update = async (params, body) => {
 const list = async (params) => {
   const result = await EventIndex.aggregate([    
     {
-      $match: params.matchCondition2,
+      $match: params.matchCondition1,
+    }, 
+    {
+      $lookup: {
+        from: "purchasedEvent",
+        let: {
+          eventId: "$_id",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  {
+                    $eq: ["$event_id", "$$eventId"],
+                  },
+                ],
+              },
+            },
+          },
+          {
+            $lookup: {
+              from: "users",
+              let: {
+                userId: "$user_id",
+              },
+              pipeline: [
+                {
+                  $match: {
+                    $expr: {
+                      $and: [
+                        {
+                          $eq: ["$_id", "$$userId"],
+                        },
+                      ],
+                    },
+                  },
+                },
+              ],
+              as: "user_detail",
+            },
+          },
+          {
+            $unwind: {
+              path: "$user_detail",
+              preserveNullAndEmptyArrays: true,
+            },
+          },
+        ],
+        as: "purchased_event_detail",
+      },
     },
     {
-      $match: params.matchCondition1,
+      $match: params.matchCondition2,
     },
+    
     {
       $sort: params.sortCondition,
     },
