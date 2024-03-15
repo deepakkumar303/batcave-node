@@ -15,6 +15,7 @@ require("dotenv").config();
 const { ObjectId } = mongoose.Types;
 
 const addQueries = async (params, user) => {
+  
   params.user_id = user.id;
   params.status = "open";
   params.ticket = `T${generateUniqueNumber()}`;
