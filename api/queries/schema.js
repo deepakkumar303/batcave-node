@@ -9,6 +9,10 @@ module.exports.options = {
 module.exports.addSchema = {
   body: joi.object().keys({
     description: joi.string().required(),
+    type: joi
+      .string()
+      .valid("events", "member_plan", "selling_car")
+      .required(),
   }),
 };
 
@@ -38,6 +42,7 @@ module.exports.getAllByParamsByMobile = {
 module.exports.getAllByParamsByWeb = {
   query: {
     status: joi.string().allow(null, "").optional(),
+    type: joi.string().allow(null, "").optional(),
     search_string: joi.string().allow(null, "").optional(),
     sortBy: joi.string().allow(null, "").required(),
     sortDir: joi.string().allow(null, "").required(),

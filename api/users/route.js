@@ -53,6 +53,13 @@ router.get(
   c(controller.getListAll, (req, res, next) => [req.query])
 );
 
+router.get(
+  "/:user_id",
+  authenticateWebJWT,
+  celebrate(schema.getUserDetailSchema, schema.options),
+  c(controller.getUserDetail, (req, res, next) => [req.params])
+);
+
 // Multer Configuration
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });

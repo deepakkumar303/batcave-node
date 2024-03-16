@@ -231,6 +231,18 @@ const getListAll = async (params) => {
   return result;
 };
 
+const getUserDetail = async (params) => {
+  const getList = await service.fetchDetails(params);
+  if (!utilsChecks.isArray(getList) || utilsChecks.isEmptyArray(getList)) {
+    throw boom.notFound("No Data Found");
+  }
+  const result = {
+    message: "User Details",
+    detail: getList,
+  };
+  return result;
+};
+
 const s3 = new aws.S3({
   accessKeyId: process.env.AWS_S3_ACCESSKEYID,
   secretAccessKey: process.env.AWS_SECRET_ACCESSKEY,
@@ -297,4 +309,5 @@ module.exports = {
   forgotPassword,
   resetPassword,
   getListAll,
+  getUserDetail
 };

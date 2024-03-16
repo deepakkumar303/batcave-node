@@ -38,8 +38,8 @@ const addEmplyee = async (params, user) => {
     if (employeeDetail.length > 0) {
       throw boom.conflict("Employee already exists");
     }
-    const password = generateUniqueRandomPassword();
-    const hashedPassword = await bcrypt.hash(password, password.length);
+    // const password = generateUniqueRandomPassword();
+    const hashedPassword = await bcrypt.hash(params.password, params.password.length);
     params.password = hashedPassword;
     const createUser = await service.create(params);
     const result = {

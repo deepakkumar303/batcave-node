@@ -115,6 +115,7 @@ const getListAll = async (params) => {
   const limitCond = {};
   const skipCond = {};
   let statusCondition = {};
+  let typeCondition = {};
   if (params.status) {
     statusCondition.$or = [];
     statusCondition.$or.push({
@@ -123,6 +124,15 @@ const getListAll = async (params) => {
     });
   } else {
     statusCondition = {};
+  }
+  if (params.type) {
+    typeCondition.$or = [];
+    typeCondition.$or.push({
+      // Filter past events
+      type: params.type,
+    });
+  } else {
+    typeCondition = {};
   }
   if (
     params.search_string &&
@@ -175,6 +185,7 @@ const getListAll = async (params) => {
     paginatedCondition: paginatedCond,
     search_string: params.search_string,
     statusCondition: statusCondition,
+    typeCondition: typeCondition
   };
   const getList = await service.list(facetParams);
   if (!utilsChecks.isArray(getList) || utilsChecks.isEmptyArray(getList)) {

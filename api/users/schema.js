@@ -85,3 +85,9 @@ module.exports.getAllByParams = {
     offset: joi.number().required(),
   },
 };
+
+module.exports.getUserDetailSchema = {
+  params: {
+    user_id: joi.string().required(),
+  },
+};

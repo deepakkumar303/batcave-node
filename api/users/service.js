@@ -104,6 +104,152 @@ const list = async (params) => {
       $match: params.matchCondition2,
     },
     {
+      $lookup: {
+        from: "purchasedEvent",
+        let: {
+          userId: "$_id",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  {
+                    $eq: ["$user_id", "$$userId"],
+                  },
+                ],
+              },
+            },
+          },
+          {
+            $lookup: {
+              from: "event",
+              let: {
+                eventId: "$event_id",
+              },
+              pipeline: [
+                {
+                  $match: {
+                    $expr: {
+                      $and: [
+                        {
+                          $eq: ["$_id", "$$eventId"],
+                        },
+                      ],
+                    },
+                  },
+                },
+              ],
+              as: "event_detail",
+            },
+          },
+        ],
+        as: "purchased_event_detail",
+      },
+    },
+    {
+      $lookup: {
+        from: "pointRegistry",
+        let: {
+          userId: "$_id",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  {
+                    $eq: ["$user_id", "$$userId"],
+                  },
+                ],
+              },
+            },
+          },
+          {
+            $lookup: {
+              from: "event",
+              let: {
+                eventId: "$event_id",
+              },
+              pipeline: [
+                {
+                  $match: {
+                    $expr: {
+                      $and: [
+                        {
+                          $eq: ["$_id", "$$eventId"],
+                        },
+                      ],
+                    },
+                  },
+                },
+              ],
+              as: "event_detail",
+            },
+          },
+        ],
+        as: "addendent_event_detail",
+      },
+    },
+    {
+      $lookup: {
+        from: "usersCar",
+        let: {
+          userId: "$_id",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  {
+                    $eq: ["$user_id", "$$userId"],
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        as: "user_car_detail",
+      },
+    },
+    {
+      $lookup: {
+        from: "pointRegistry",
+        let: {
+          userId: "$_id",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  {
+                    $eq: ["$user_id", "$$userId"],
+                  },
+                ],
+              },
+            },
+          },
+          {
+            $group: {
+              _id: null,
+              totalCreditPoints: { $sum: "$credit_point" },
+              totalDebitPoints: { $sum: "$debit_point" }
+            }
+          },
+          {
+            $project: {
+              _id: 0,
+              totalCreditPoints: 1,
+              totalDebitPoints: 1
+            }
+          }
+        ],
+        as: "point_registry_detail",
+      },
+    },
+    {
       $sort: params.sortCondition,
     },
     {
@@ -125,9 +271,15 @@ const list = async (params) => {
   return result;
 };
 
+const fetchDetails = async (params) => {
+  const userDetails = await User.find({ _id: params.user_id });
+  return userDetails;
+};
+
 module.exports = {
   create,
   getDetail,
   update,
-  list
+  list,
+  fetchDetails
 };

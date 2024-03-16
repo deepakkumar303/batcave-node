@@ -53,6 +53,9 @@ const list = async (params) => {
       $match: params.statusCondition,
     },
     {
+      $match: params.typeCondition,
+    },
+    {
       $lookup: {
         from: "users",
         let: {

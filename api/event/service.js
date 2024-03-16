@@ -72,6 +72,50 @@ const list = async (params) => {
       },
     },
     {
+      $lookup: {
+        from: "pointRegistry",
+        let: {
+          eventId: "$_id",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  {
+                    $eq: ["$event_id", "$$eventId"],
+                  },
+                ],
+              },
+            },
+          },
+          {
+            $lookup: {
+              from: "users",
+              let: {
+                userId: "$user_id",
+              },
+              pipeline: [
+                {
+                  $match: {
+                    $expr: {
+                      $and: [
+                        {
+                          $eq: ["$_id", "$$userId"],
+                        },
+                      ],
+                    },
+                  },
+                },
+              ],
+              as: "user_detail",
+            },
+          },
+        ],
+        as: "addendent_event_detail",
+      },
+    },
+    {
       $match: params.matchCondition2,
     },    
     {

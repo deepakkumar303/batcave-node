@@ -9,6 +9,9 @@ const queriesSchema = new Schema(
     ticket: {
       type: String,
     },
+    type: {
+      type: String,
+    },
     description: {
       type: String,
     },
