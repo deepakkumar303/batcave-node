@@ -14,6 +14,7 @@ const { ObjectId } = mongoose.Types;
 const register = async (params) => {
   const carDetails = await UserCarIndex.find({
     vechile_number: params.vechile_number,
+    user_id: params.user_id,
   });
   if (carDetails.length > 0) {
     throw boom.conflict("car already exists");

@@ -73,8 +73,7 @@ const list = async (params) => {
     },
     {
       $match: params.matchCondition2,
-    },
-    
+    },    
     {
       $sort: params.sortCondition,
     },
