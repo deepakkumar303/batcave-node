@@ -12,7 +12,7 @@ module.exports.addSchema = {
     make: joi.string().required(),
     color: joi.string().required(),
     modal: joi.string().required(),
-    year: joi.number().required(),
+    year: joi.string().required(),
     document: joi.object({
       rc_book: joi.object({
         actual_name: joi.string().optional(),
