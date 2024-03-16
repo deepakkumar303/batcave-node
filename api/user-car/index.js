@@ -27,59 +27,49 @@ const userCarSchema = new Schema(
       required: true,
     },
     year: {
-      type: Number,
+      type: String,
       required: true,
     },
     document: {
       rc_book: {
         actual_name: {
           type: String,
-          required: true,
         },
         internal_name: {
           type: String,
-          required: true,
         },
       },
       driving_license: {
         actual_name: {
           type: String,
-          required: true,
         },
         internal_name: {
           type: String,
-          required: true,
         },
       },
       insurance: {
         actual_name: {
           type: String,
-          required: true,
         },
         internal_name: {
           type: String,
-          required: true,
         },
       },
       pollution_certificate: {
         actual_name: {
           type: String,
-          required: true,
         },
         internal_name: {
           type: String,
-          required: true,
         },
       },
       car_images: [
         {
           actual_name: {
             type: String,
-            required: true,
           },
           internal_name: {
             type: String,
-            required: true,
           },
         },
       ],
