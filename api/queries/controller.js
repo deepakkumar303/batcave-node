@@ -146,6 +146,24 @@ const getListAll = async (params) => {
         $options: "i",
       },
     });
+    matchCond2.$or.push({
+      'user_detail.unique_number': {
+        $regex: params.search_string,
+        $options: "i",
+      },
+    });
+    matchCond2.$or.push({
+      'user_detail.name': {
+        $regex: params.search_string,
+        $options: "i",
+      },
+    });
+    matchCond2.$or.push({
+      'user_detail.mobile': {
+        $regex: params.search_string,
+        $options: "i",
+      },
+    });
   }
   const { sortBy } = params;
   const { sortDir } = params;
