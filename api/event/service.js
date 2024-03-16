@@ -148,6 +148,12 @@ const list = async (params) => {
             },
           },
           {
+            $unwind: {
+              path: "$user_detail",
+              preserveNullAndEmptyArrays: true,
+            },
+          },
+          {
             $project: {
               _id: 1,
               event_id: 1,
