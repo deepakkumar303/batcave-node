@@ -124,7 +124,7 @@ const getListAll = async (params) => {
   return result;
 };
 
-const getListAllMobile = async (params) => {
+const getListAllMobile = async (params, reqUser) => {
   // JSON.parse(params.event_type)
   // const eventTypes = JSON.parse(params.event_type);
   // return {params, eventTypes};

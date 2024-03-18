@@ -47,6 +47,21 @@ const registerPointRegistryEvent = async (params) => {
   return result;
 };
 
+const getEventUserDetail = async (params) => {
+  const userDetail = await userService.getDetail(params);
+  const eventParams = {
+    event_id: params.event_id,
+  };
+  const eventDetail = await eventService.fetchDetails(eventParams);
+  
+  const result = {
+    eventDetail: eventDetail,
+    userDetail: userDetail,
+    message: "Event User Details",
+  };
+  return result;
+};
+
 const getListAllByMobile = async (params) => {
   // const matchCond2 = {};
   const sortCond = {};
@@ -195,5 +210,6 @@ const getListAllByWeb = async (params) => {
 module.exports = {
   registerPointRegistryEvent,
   getListAllByMobile,
-  getListAllByWeb
+  getListAllByWeb,
+  getEventUserDetail
 };

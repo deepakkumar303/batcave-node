@@ -127,6 +127,32 @@ const list = async (params) => {
           },
           {
             $lookup: {
+              from: "eventRating",
+              let: {
+                eventId: "$event_id",
+                userId: "$user_id",
+              },
+              pipeline: [
+                {
+                  $match: {
+                    $expr: {
+                      $and: [
+                        {
+                          $eq: ["$event_id", "$$eventId"],
+                        },
+                        {
+                          $eq: ["$user_id", "$$userId"],
+                        },
+                      ],
+                    },
+                  },
+                },
+              ],
+              as: "rating_detail",
+            },
+          },
+          {
+            $lookup: {
               from: "users",
               let: {
                 userId: "$user_id",
@@ -167,6 +193,7 @@ const list = async (params) => {
               car: '$_event_detail.car',
               number: '$_event_detail.number',
               user_detail: 1,
+              rating_detail: 1
             },
           },
         ],
@@ -207,6 +234,31 @@ const listMobile = async (params) => {
     {
       $match: {
         is_approved: { $eq: true },
+      },
+    },
+    {
+      $lookup: {
+        from: "eventRating",
+        let: {
+          eventId: "$_id",
+        },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  {
+                    $eq: ["$event_id", "$$eventId"],
+                  },
+                  {
+                    $eq: ["$user_id", params.user_id],
+                  },
+                ],
+              },
+            },
+          },
+        ],
+        as: "rating_detail",
       },
     },
     {

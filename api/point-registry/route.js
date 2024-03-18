@@ -15,6 +15,12 @@ router.post(
   c(controller.registerPointRegistryEvent, (req, res, next) => [req.body])
 );
 
+router.post(
+  "/get-event-user",
+  celebrate(schema.getEventUserSchema, schema.options),
+  c(controller.getEventUserDetail, (req, res, next) => [req.body])
+);
+
 router.get(
   "/list-mobile",
   authenticateMobileJWT,

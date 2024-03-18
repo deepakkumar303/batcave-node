@@ -13,6 +13,13 @@ module.exports.registerPointRegistryEventSchema = {
   }),
 };
 
+module.exports.getEventUserSchema = {
+  body: joi.object().keys({
+    event_id: joi.string().required(),
+    user_id: joi.string().required(),
+  }),
+};
+
 module.exports.getAllByParamsByMobile = {
   query: {
     // search_string: joi.string().allow(null, "").optional(),

@@ -308,6 +308,7 @@ const carImageSchema = {
 const carSummarySchema = {
   car_image: carImageSchema,
   car_name: String,
+  car_type: String,
   price: String,
   reg_year: String,
   fuel_type: String,

@@ -329,6 +329,7 @@ const carImageSchema = joi.object({
 const carSummarySchema = joi.object({
   car_image: carImageSchema,
   car_name: joi.any().allow(null, "").optional(),
+  car_type: joi.any().allow(null, "").optional(),
   price: joi.any().allow(null, "").optional(),
   reg_year: joi.any().allow(null, "").optional(),
   fuel_type: joi.any().allow(null, "").optional(),
