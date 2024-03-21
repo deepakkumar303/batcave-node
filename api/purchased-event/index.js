@@ -8,7 +8,6 @@ const purchasedEventSchema = new Schema(
     },
     car: {
       type: String,
-      required: true,
     },
     seat_number: {
       type: Array,
