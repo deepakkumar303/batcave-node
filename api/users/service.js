@@ -167,6 +167,39 @@ const list = async (params) => {
           },
           {
             $lookup: {
+              from: "purchasedEvent",
+              let: {
+                eventId: "$event_id",
+              },
+              pipeline: [
+                {
+                  $match: {
+                    $expr: {
+                      $and: [
+                        {
+                          $eq: ["$event_id", "$$eventId"],
+                        },
+                        {
+                          $eq: ["$user_id", "$$userId"],
+                        }
+                      ],
+                    },
+                  },
+                },
+                {
+                  $project: {
+                    seat_number: 1,
+                    no_of_people: 1,
+                    car: 1,
+                    number: 1,
+                  },
+                },
+              ],
+              as: "_event_detail",
+            },
+          },
+          {
+            $lookup: {
               from: "event",
               let: {
                 eventId: "$event_id",
@@ -185,6 +218,29 @@ const list = async (params) => {
                 },
               ],
               as: "event_detail",
+            },
+          },
+          {
+            $unwind: {
+              path: "$_event_detail",
+              preserveNullAndEmptyArrays: true,
+            },
+          },
+          {
+            $project: {
+              _id: 1,
+              event_id: 1,
+              user_id: 1,
+              credit_point: 1,
+              type: 1,
+              createdAt: 1,
+              updatedAt: 1,
+              seat_number: '$_event_detail.seat_number',
+              no_of_people: '$_event_detail.no_of_people',
+              car: '$_event_detail.car',
+              number: '$_event_detail.number',
+              user_detail: 1,
+              rating_detail: 1
             },
           },
         ],
