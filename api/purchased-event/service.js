@@ -61,6 +61,43 @@ const listMobile = async (params) => {
             },
           },
           {
+            $lookup: {
+              from: "eventRating",
+              let: {
+                eventId: "$_id",
+              },
+              pipeline: [
+                {
+                  $match: {
+                    $expr: {
+                      $and: [
+                        {
+                          $eq: ["$event_id", "$$eventId"],
+                        },
+                        {
+                          $eq: ["$user_id", params.user_id],
+                        }
+                      ],
+                    },
+                  },
+                },
+              ],
+              as: "rating_details",
+            },
+          },
+          {
+            $unwind: {
+              path: "$rating_details",
+              preserveNullAndEmptyArrays: true,
+            },
+          },
+          {
+            $addFields: {
+              rating_comment: '$rating_details.comments',
+              rating: '$rating_details.rating',
+            }
+          },
+          {
             $addFields: {
               isPurchased: {
                 $cond: [
@@ -77,54 +114,20 @@ const listMobile = async (params) => {
         as: "event_detail",
       },
     },
-    {
-      $lookup: {
-        from: "eventRating",
-        let: {
-          eventId: "$event_id",
-        },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $and: [
-                  {
-                    $eq: ["$event_id", "$$eventId"],
-                  },
-                  {
-                    $eq: ["$user_id", params.user_id],
-                  }
-                ],
-              },
-            },
-          },
-        ],
-        as: "rating_details",
-      },
-    },
+    
     {
       $unwind: {
         path: "$event_detail",
         preserveNullAndEmptyArrays: true,
       },
     },
-    {
-      $unwind: {
-        path: "$rating_details",
-        preserveNullAndEmptyArrays: true,
-      },
-    },
+    
     {
       $addFields: {
         to_date: '$event_detail.to_date'
       }
     },
-    {
-      $addFields: {
-        rating_comment: '$rating_details.comments',
-        rating: '$rating_details.rating',
-      }
-    },
+   
     {
       $match: params.matchCondition1,
     },
