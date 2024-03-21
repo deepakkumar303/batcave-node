@@ -228,6 +228,7 @@ const list = async (params) => {
           },
           {
             $project: {
+              event_detail: 1,
               _id: 1,
               event_id: 1,
               user_id: 1,
