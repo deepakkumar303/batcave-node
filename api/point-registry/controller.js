@@ -49,10 +49,15 @@ const registerPointRegistryEvent = async (params) => {
 };
 
 const getEventUserDetail = async (params) => {
+  
   const userDetail = await userService.getDetail(params);
   const purchaseParams = {
     user_id: new ObjectId(params.user_id.toString()),
     event_id: new ObjectId(params.event_id.toString())
+  }
+  const pointRegistryDetail = await service.fetchDetails(purchaseParams);
+  if(pointRegistryDetail && pointRegistryDetail.length > 0) {
+    throw boom.conflict("User Already Enrolled");
   }
   const purchasedEventDetail = await purchasedEvent.fetchDetails(purchaseParams);
   const eventParams = {
@@ -64,6 +69,7 @@ const getEventUserDetail = async (params) => {
     eventDetail: eventDetail,
     userDetail: userDetail,
     purchasedEventDetail: purchasedEventDetail,
+    pointRegistryDetail: pointRegistryDetail,
     message: "Event User Details",
   };
   return result;
