@@ -131,6 +131,33 @@ const resetPassword = async (body) => {
   return result;
 };
 
+const updatePassword = async (body) => {
+  const user_id = new ObjectId(body.user_id.toString());
+  const userDetail = await User.find({ _id: user_id });
+  if (userDetail.length === 0) {
+    throw boom.conflict("User not found");
+  }
+  const passwordMatch = await bcrypt.compare(
+    body.current_password,
+    userDetail[0].password
+  );
+  if (!passwordMatch) {
+    throw boom.conflict("Invalid password");
+  }
+  const { password } = body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+  body.password = hashedPassword;
+  await service.update(
+    { user_id: userDetail[0]._id },
+    { password: body.password }
+  );
+  const result = {
+    // detail: userDetail,
+    message: "Password Changed Successfully.",
+  };
+  return result;
+};
+
 const forgotPassword = async (params) => {
   const userDetail = await User.find({
     $or: [{ mobile: params.mobile }, { email: params.mobile }],
@@ -309,5 +336,6 @@ module.exports = {
   forgotPassword,
   resetPassword,
   getListAll,
-  getUserDetail
+  getUserDetail,
+  updatePassword
 };

@@ -58,6 +58,14 @@ module.exports.resetPassword = {
   }),
 };
 
+module.exports.updatePassword = {
+  body: joi.object().keys({
+    current_password: joi.string().required(),
+    password: joi.string().required(),
+    user_id: joi.string().required(),
+  }),
+};
+
 module.exports.upload = {
   body: joi.object({
     file: joi.object({

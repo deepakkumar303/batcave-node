@@ -46,6 +46,13 @@ router.post(
   c(controller.resetPassword, (req, res, next) => [req.body])
 );
 
+router.post(
+  "/update-password",
+  celebrate(schema.updatePassword, schema.options),
+  c(controller.updatePassword, (req, res, next) => [req.body])
+);
+
+
 router.get(
   "/list",
   authenticateWebJWT,

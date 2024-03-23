@@ -9,6 +9,7 @@ module.exports.options = {
 module.exports.addSchema = {
   body: joi.object().keys({
     vechile_number: joi.string().required(),
+    vechile_type: joi.string().required(),
     make: joi.string().required(),
     color: joi.string().required(),
     modal: joi.string().required(),
@@ -57,6 +58,7 @@ module.exports.deleteSchema = {
 module.exports.updateSchema = {
   body: joi.object().keys({
     vechile_number: joi.string().required(),
+    vechile_type: joi.string().required(),
     make: joi.string().required(),
     color: joi.string().required(),
     modal: joi.string().required(),

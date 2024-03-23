@@ -14,6 +14,9 @@ const userCarSchema = new Schema(
       type: String,
       required: true,
     },
+    vechile_type: {
+      type: String,
+    },
     make: {
       type: String,
       required: true,
