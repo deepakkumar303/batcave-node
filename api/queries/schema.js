@@ -11,7 +11,7 @@ module.exports.addSchema = {
     description: joi.string().required(),
     type: joi
       .string()
-      .valid("events", "member_plan", "selling_car")
+      .valid("events", "general", "selling_car")
       .required(),
   }),
 };
